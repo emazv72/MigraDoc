@@ -365,6 +365,63 @@ namespace MigraDoc.DocumentObjectModel.Tables
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("Row");
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\row");
+
+            if (_style.Value != String.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            //if (!IsNull("Format"))
+             //   _format.Serialize(serializer, "Format", null);
+
+            if (!_height.IsNull)
+                serializer.WriteSimpleAttribute("Height", Height);
+
+            if (!_heightRule.IsNull)
+                serializer.WriteSimpleAttribute("HeightRule", HeightRule);
+
+            if (!_topPadding.IsNull)
+                serializer.WriteSimpleAttribute("TopPadding", TopPadding);
+
+            if (!_bottomPadding.IsNull)
+                serializer.WriteSimpleAttribute("BottomPadding", BottomPadding);
+
+            if (!_headingFormat.IsNull)
+                serializer.WriteSimpleAttribute("HeadingFormat", HeadingFormat);
+
+            if (!_verticalAlignment.IsNull)
+                serializer.WriteSimpleAttribute("VerticalAlignment", VerticalAlignment);
+
+            if (!_keepWith.IsNull)
+                serializer.WriteSimpleAttribute("KeepWith", KeepWith);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+               _format.Serialize(serializer, "Format", null);
+
+            //Borders & Shading
+            if (!IsNull("Borders"))
+                _borders.Serialize(serializer, null);
+
+            if (!IsNull("Shading"))
+                _shading.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            if (!IsNull("Cells"))
+                _cells.Serialize(serializer);
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

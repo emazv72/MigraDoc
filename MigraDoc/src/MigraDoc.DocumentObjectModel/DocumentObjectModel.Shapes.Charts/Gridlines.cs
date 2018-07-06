@@ -108,6 +108,23 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            Axis axisObject = _parent as Axis;
+
+            //int pos = serializer.BeginContent(axisObject.CheckGridlines(this));
+            serializer.WriteStartElement("GridLines");
+
+            serializer.WriteElement("Type", axisObject.CheckGridlines(this));
+
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+
+            serializer.WriteEndElement();
+
+            //serializer.EndContent();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

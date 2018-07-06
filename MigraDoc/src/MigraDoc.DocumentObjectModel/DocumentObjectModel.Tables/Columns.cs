@@ -156,6 +156,36 @@ namespace MigraDoc.DocumentObjectModel.Tables
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Columns");
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\columns");
+
+            //int pos = serializer.BeginAttributes();
+
+            if (!_width.IsNull)
+                serializer.WriteSimpleAttribute("Width", Width);
+
+            //serializer.EndAttributes(pos);
+
+            //serializer.BeginContent();
+            int clms = Count;
+            if (clms > 0)
+            {
+                for (int clm = 0; clm < clms; clm++)
+                    this[clm].Serialize(serializer);
+            }
+            else
+                serializer.WriteComment("Invalid - no columns defined. Table will not render.");
+
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

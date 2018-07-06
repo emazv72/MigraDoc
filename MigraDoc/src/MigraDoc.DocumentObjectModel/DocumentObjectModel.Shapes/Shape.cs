@@ -223,6 +223,33 @@ namespace MigraDoc.DocumentObjectModel.Shapes
                 _fillFormat.Serialize(serializer);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (!_height.IsNull)
+                serializer.WriteSimpleAttribute("Height", Height);
+            if (!_width.IsNull)
+                serializer.WriteSimpleAttribute("Width", Width);
+            if (!_relativeHorizontal.IsNull)
+                serializer.WriteSimpleAttribute("RelativeHorizontal", RelativeHorizontal);
+            if (!_relativeVertical.IsNull)
+                serializer.WriteSimpleAttribute("RelativeVertical", RelativeVertical);
+            if (!IsNull("Left"))
+                _left.Serialize(serializer);
+            if (!IsNull("Top"))
+                _top.Serialize(serializer);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("WrapFormat"))
+                _wrapFormat.Serialize(serializer);
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+            if (!IsNull("FillFormat"))
+                _fillFormat.Serialize(serializer);
+
+            serializer.EndAttributes();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -132,6 +132,23 @@ namespace MigraDoc.DocumentObjectModel.Fields
             serializer.Write(str);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Field");
+
+            serializer.WriteSimpleAttribute("Type", "Info");
+
+            //string str = "\\field(Info)";
+            if (Name == "")
+                throw new InvalidOperationException(DomSR.MissingObligatoryProperty("Name", "InfoField"));
+            //str += "[Name = \"" + Name + "\"]";
+            serializer.WriteSimpleAttribute("Name", Name);
+
+            //serializer.Write(str);
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -83,6 +83,12 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.Write("\"" + Value + "\", ");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.Write("\"" + Value + "\", ");
+            serializer.WriteElement("XValue", Value);
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

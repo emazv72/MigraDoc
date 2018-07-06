@@ -123,6 +123,28 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Shading");
+
+            if (_isCleared)
+                //serializer.WriteLine("Shading = null");
+                serializer.WriteSimpleAttribute("Clear", true);
+
+            //int pos = serializer.BeginContent("Shading");
+
+            if (!_visible.IsNull)
+                serializer.WriteSimpleAttribute("Visible", Visible);
+
+            if (!_color.IsNull)
+                serializer.WriteSimpleAttribute("Color", Color);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement(); // shading
+        }
+
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

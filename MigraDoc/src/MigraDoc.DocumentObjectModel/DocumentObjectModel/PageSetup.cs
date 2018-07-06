@@ -454,6 +454,66 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("PageSetup");
+
+            serializer.WriteComment(_comment.Value);
+            //int pos = serializer.BeginContent("PageSetup");
+
+            if (!_pageHeight.IsNull)
+                serializer.WriteSimpleAttribute("PageHeight", PageHeight);
+
+            if (!_pageWidth.IsNull)
+                serializer.WriteSimpleAttribute("PageWidth", PageWidth);
+
+            if (!_orientation.IsNull)
+                serializer.WriteSimpleAttribute("Orientation", Orientation);
+
+            if (!_leftMargin.IsNull)
+                serializer.WriteSimpleAttribute("LeftMargin", LeftMargin);
+
+            if (!_rightMargin.IsNull)
+                serializer.WriteSimpleAttribute("RightMargin", RightMargin);
+
+            if (!_topMargin.IsNull)
+                serializer.WriteSimpleAttribute("TopMargin", TopMargin);
+
+            if (!_bottomMargin.IsNull)
+                serializer.WriteSimpleAttribute("BottomMargin", BottomMargin);
+
+            if (!_footerDistance.IsNull)
+                serializer.WriteSimpleAttribute("FooterDistance", FooterDistance);
+
+            if (!_headerDistance.IsNull)
+                serializer.WriteSimpleAttribute("HeaderDistance", HeaderDistance);
+
+            if (!_oddAndEvenPagesHeaderFooter.IsNull)
+                serializer.WriteSimpleAttribute("OddAndEvenPagesHeaderFooter", OddAndEvenPagesHeaderFooter);
+
+            if (!_differentFirstPageHeaderFooter.IsNull)
+                serializer.WriteSimpleAttribute("DifferentFirstPageHeaderFooter", DifferentFirstPageHeaderFooter);
+
+            if (!_sectionStart.IsNull)
+                serializer.WriteSimpleAttribute("SectionStart", SectionStart);
+
+            if (!_pageFormat.IsNull)
+                serializer.WriteSimpleAttribute("PageFormat", PageFormat);
+
+            if (!_mirrorMargins.IsNull)
+                serializer.WriteSimpleAttribute("MirrorMargins", MirrorMargins);
+
+            if (!_horizontalPageBreak.IsNull)
+                serializer.WriteSimpleAttribute("HorizontalPageBreak", HorizontalPageBreak);
+
+            if (!_startingNumber.IsNull)
+                serializer.WriteSimpleAttribute("StartingNumber", StartingNumber);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement(); // PageSetup
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

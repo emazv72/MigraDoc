@@ -428,6 +428,120 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Style");
+
+#if DEBUG_ // Test
+      if (Name == StyleNames.Heading1 || Name == StyleNames.Heading2)
+        Name.GetType();
+#endif
+
+            // For build-in styles all properties that differ from their default values
+            // are serialized.
+            // For user-defined styles all non-null properties are serialized.
+            Styles buildInStyles = Styles.BuildInStyles;
+            Style refStyle = null;
+            Font refFont = null;
+            ParagraphFormat refFormat = null;
+
+            serializer.WriteComment(_comment.Value);
+            if (_buildIn.Value)
+            {
+                // BaseStyle is never null, but empty only for "Normal" and "DefaultParagraphFont"
+                if (BaseStyle == "")
+                {
+                    // case: style is "Normal"
+                    if (String.Compare(_name.Value, DefaultParagraphName, StringComparison.OrdinalIgnoreCase) != 0)
+                        throw new ArgumentException("Internal Error: BaseStyle not set.");
+
+                    refStyle = buildInStyles[buildInStyles.GetIndex(Name)];
+                    refFormat = refStyle.ParagraphFormat;
+                    refFont = refFormat.Font;
+                    //string name = DdlEncoder.QuoteIfNameContainsBlanks(Name);
+                    //serializer.WriteLineNoCommit(name);
+
+                    serializer.WriteSimpleAttribute("Name", Name);
+                }
+                else
+                {
+                    // case: any build-in style except "Normal"
+                    refStyle = buildInStyles[buildInStyles.GetIndex(Name)];
+                    refFormat = refStyle.ParagraphFormat;
+                    refFont = refFormat.Font;
+                    if (String.Compare(BaseStyle, refStyle.BaseStyle, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        // case: build-in style with unmodified base style name
+                        // string name = DdlEncoder.QuoteIfNameContainsBlanks(Name);
+                        //serializer.WriteLineNoCommit(name);
+
+                        serializer.WriteSimpleAttribute("Name", Name);
+                        
+                        // It's fine if we have the predefined base style, but ...
+                        // ... the base style may have been modified or may even have a modified base style.
+                        // Methinks it's wrong to compare with the built-in style, so let's compare with the
+                        // real base style:
+                        refStyle = Document.Styles[Document.Styles.GetIndex(_baseStyle.Value)];
+                        refFormat = refStyle.ParagraphFormat;
+                        refFont = refFormat.Font;
+                        // Note: we must write "Underline = none" if the base style has "Underline = single" - we cannot
+                        // detect this if we compare with the built-in style that has no underline.
+                        // Known problem: Default values like "OutlineLevel = Level1" will now be serialized
+                        // TODO: optimize...
+                    }
+                    else
+                    {
+                        // case: build-in style with modified base style name
+                        //string name = DdlEncoder.QuoteIfNameContainsBlanks(Name);
+                        //string baseName = DdlEncoder.QuoteIfNameContainsBlanks(BaseStyle);
+
+                        //serializer.WriteLine(name + " : " + baseName);
+                        serializer.WriteSimpleAttribute("Name", Name);
+                        serializer.WriteSimpleAttribute("BaseStyle", BaseStyle);
+
+                        refStyle = Document.Styles[Document.Styles.GetIndex(_baseStyle.Value)];
+                        refFormat = refStyle.ParagraphFormat;
+                        refFont = refFormat.Font;
+                    }
+                }
+            }
+            else
+            {
+                // case: user-defined style; base style always exists
+
+                //string name = DdlEncoder.QuoteIfNameContainsBlanks(Name);
+                //string baseName = DdlEncoder.QuoteIfNameContainsBlanks(BaseStyle);
+                //serializer.WriteLine(name + " : " + baseName);
+                serializer.WriteSimpleAttribute("Name", Name);
+                serializer.WriteSimpleAttribute("BaseStyle", BaseStyle);
+
+
+#if true
+                Style refStyle0 = Document.Styles[Document.Styles.GetIndex(_baseStyle.Value)];
+                refStyle = Document.Styles[_baseStyle.Value];
+                refFormat = refStyle != null ? refStyle.ParagraphFormat : null;
+#else
+        refFormat = null;
+#endif
+            }
+
+            //serializer.BeginContent();
+
+            if (!IsNull("ParagraphFormat"))
+            {
+                if (!ParagraphFormat.IsNull("Font"))
+                    Font.Serialize(serializer, refFormat != null ? refFormat.Font : null);
+
+                if (Type == StyleType.Paragraph)
+                    ParagraphFormat.Serialize(serializer, "ParagraphFormat", refFormat);
+            }
+
+            //serializer.EndContent();
+            serializer.WriteEndElement(); // style
+
+        }
+
         /// <summary>
         /// Sets all properties to Null that have the same value as the base style.
         /// </summary>

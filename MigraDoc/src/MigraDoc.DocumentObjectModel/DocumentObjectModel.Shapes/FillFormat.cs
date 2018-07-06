@@ -98,6 +98,21 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.BeginContent("FillFormat");
+
+            serializer.WriteStartElement("FillFormat");
+
+            if (!_visible.IsNull)
+                serializer.WriteSimpleAttribute("Visible", Visible);
+            if (!_color.IsNull)
+                serializer.WriteSimpleAttribute("Color", Color);
+
+            //serializer.EndContent();
+            serializer.WriteEndElement();         
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

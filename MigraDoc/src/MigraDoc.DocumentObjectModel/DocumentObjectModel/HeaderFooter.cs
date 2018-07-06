@@ -295,7 +295,7 @@ namespace MigraDoc.DocumentObjectModel
                 Serialize(serializer, "evenpage");
             else if (headersfooters.FirstPage == this)
                 Serialize(serializer, "firstpage");
-        }
+        }     
 
         /// <summary>
         /// Converts HeaderFooter into DDL.
@@ -314,6 +314,42 @@ namespace MigraDoc.DocumentObjectModel
             if (!IsNull("Elements"))
                 _elements.Serialize(serializer);
             serializer.EndContent();
+        }
+
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            HeadersFooters headersfooters = (HeadersFooters)_parent;
+            if (headersfooters.Primary == this)
+                Serialize(serializer, "Primary");
+            else if (headersfooters.EvenPage == this)
+                Serialize(serializer, "Evenpage");
+            else if (headersfooters.FirstPage == this)
+                Serialize(serializer, "Firstpage");
+        }
+
+        internal void Serialize(XmlSerializer serializer, string prefix)
+        {
+
+            //serializer.WriteLine("\\" + prefix + (IsHeader ? "header" : "footer"));
+            serializer.WriteStartElement(prefix + (IsHeader ? "Header" : "Footer"));
+
+            serializer.WriteComment(_comment.Value);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+
+            if (!IsNull("Elements"))
+                _elements.Serialize(serializer);
+
+            //serializer.EndContent();
+
+            serializer.WriteEndElement(); // header/footer
         }
 
         /// <summary>

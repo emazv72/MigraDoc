@@ -318,6 +318,56 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndAttributes(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            Chart chartObject = _parent as Chart;
+
+            serializer.WriteStartElement(chartObject.CheckAxis(this));
+
+            //serializer.WriteSimpleAttribute("Type", chartObject.CheckAxis(this));
+
+            //serializer.WriteLine("\\" + chartObject.CheckAxis(this));
+
+            if (!_minimumScale.IsNull)
+                serializer.WriteSimpleAttribute("MinimumScale", MinimumScale);
+            if (!_maximumScale.IsNull)
+                serializer.WriteSimpleAttribute("MaximumScale", MaximumScale);
+            if (!_majorTick.IsNull)
+                serializer.WriteSimpleAttribute("MajorTick", MajorTick);
+            if (!_minorTick.IsNull)
+                serializer.WriteSimpleAttribute("MinorTick", MinorTick);
+            if (!_hasMajorGridlines.IsNull)
+                serializer.WriteSimpleAttribute("HasMajorGridLines", HasMajorGridlines);
+            if (!_hasMinorGridlines.IsNull)
+                serializer.WriteSimpleAttribute("HasMinorGridLines", HasMinorGridlines);
+            if (!_majorTickMark.IsNull)
+                serializer.WriteSimpleAttribute("MajorTickMark", MajorTickMark);
+            if (!_minorTickMark.IsNull)
+                serializer.WriteSimpleAttribute("MinorTickMark", MinorTickMark);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Title"))
+                _title.Serialize(serializer);
+
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+
+            if (!IsNull("MajorGridlines"))
+                _majorGridlines.Serialize(serializer);
+
+            if (!IsNull("MinorGridlines"))
+                _minorGridlines.Serialize(serializer);
+
+            if (!IsNull("TickLabels"))
+                _tickLabels.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            serializer.WriteEndElement();
+
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

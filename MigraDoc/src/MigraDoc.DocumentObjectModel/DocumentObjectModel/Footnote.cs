@@ -228,6 +228,33 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\footnote");
+            serializer.WriteStartElement("Footnote");
+
+            //int pos = serializer.BeginAttributes();
+
+            if (_reference.Value != string.Empty)
+                serializer.WriteSimpleAttribute("Reference", Reference);
+            if (_style.Value != string.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+
+            //serializer.EndAttributes(pos);
+
+            //pos = serializer.BeginContent();
+
+            if (!IsNull("Elements"))
+                _elements.Serialize(serializer);
+
+            //serializer.EndContent(pos);
+
+            serializer.WriteEndElement(); // footnote
+        }
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

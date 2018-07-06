@@ -142,6 +142,30 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Info");
+
+            serializer.WriteComment(_comment.Value);
+            //int pos = serializer.BeginContent("Info");
+
+            if (Title != String.Empty)
+                serializer.WriteSimpleAttribute("Title", Title);
+
+            if (Subject != String.Empty)
+                serializer.WriteSimpleAttribute("Subject", Subject);
+
+            if (Author != String.Empty)
+                serializer.WriteSimpleAttribute("Author", Author);
+
+            if (Keywords != String.Empty)
+                serializer.WriteSimpleAttribute("Keywords", Keywords);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

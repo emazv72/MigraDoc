@@ -130,6 +130,34 @@ namespace MigraDoc.DocumentObjectModel
                 serializer.WriteLine("TabStops -= \"" + Position + "\"");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("TabStop");
+
+			if (AddTab)
+			{
+				//serializer.WriteLine("TabStops +=");
+				serializer.WriteSimpleAttribute("Add", true);
+
+				//serializer.BeginContent();
+				serializer.WriteSimpleAttribute("Position", Position);
+				if (!_alignment.IsNull)
+					serializer.WriteSimpleAttribute("Alignment", Alignment);
+				if (!_leader.IsNull)
+					serializer.WriteSimpleAttribute("Leader", Leader);
+				//serializer.EndContent();
+			}
+			else
+			{
+				serializer.WriteSimpleAttribute("Remove", true);
+				//serializer.WriteLine("TabStops -= \"" + Position + "\"");
+				serializer.WriteSimpleAttribute("Position", Position);
+			}
+
+            serializer.WriteEndElement(); // tabstop
+        }
+
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -144,6 +144,28 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndAttributes(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\legend");
+
+            serializer.WriteStartElement("Legend");
+
+            if (!_style.IsNull)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Determines whether this instance is null (not set).
         /// </summary>

@@ -30,50 +30,16 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using MigraDoc.DocumentObjectModel.Internals;
+#pragma warning disable 1591
 
-namespace MigraDoc.DocumentObjectModel.Shapes.Charts
+namespace MigraDoc.DocumentObjectModel
 {
     /// <summary>
-    /// Base class for all chart classes.
+    /// Specifies the serialization format of the document
     /// </summary>
-    public class ChartObject : DocumentObject
+    public enum SerializationFormat
     {
-        /// <summary>
-        /// Initializes a new instance of the ChartObject class.
-        /// </summary>
-        public ChartObject()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the ChartObject class with the specified parent.
-        /// </summary>
-        internal ChartObject(DocumentObject parent) : base(parent) { }
-
-        #region Internal
-        /// <summary>
-        /// Converts ChartObject into DDL.
-        /// </summary>
-        internal override void Serialize(Serializer _serializer)
-        {
-            // Nothing to do
-        }
-
-        internal override void Serialize(XmlSerializer serializer)
-        {
-            // Nothing to do
-        }
-
-
-        /// <summary>
-        /// Returns the meta object of this instance.
-        /// </summary>
-        internal override Meta Meta
-        {
-            get { return _meta ?? (_meta = new Meta(typeof(ChartObject))); }
-        }
-        static Meta _meta;
-        #endregion
+        DDL,
+        XML
     }
 }

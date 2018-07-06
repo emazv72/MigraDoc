@@ -223,6 +223,25 @@ namespace MigraDoc.DocumentObjectModel
             }
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("TabStops");
+
+            if (_fClearAll)
+                //serializer.WriteLine("TabStops = null");
+                serializer.WriteSimpleAttribute("Clear", true);
+
+            int count = Count;
+            for (int index = 0; index < count; index++)
+            {
+                TabStop tabstop = this[index];
+                tabstop.Serialize(serializer);
+            }
+
+            serializer.WriteEndElement(); 
+        }
+
         /// <summary>
         /// Determines whether this instance is null (not set).
         /// </summary>

@@ -93,6 +93,21 @@ namespace MigraDoc.DocumentObjectModel
             }
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("Sections");
+
+            int count = Count;
+            for (int index = 0; index < count; ++index)
+            {
+                Section section = this[index];
+                section.Serialize(serializer);
+            }
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

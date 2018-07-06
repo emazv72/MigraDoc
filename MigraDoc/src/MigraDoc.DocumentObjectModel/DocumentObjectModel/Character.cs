@@ -186,6 +186,80 @@ namespace MigraDoc.DocumentObjectModel
             serializer.Write(text);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            string text = String.Empty;
+            if (_count == 1)
+            {
+				if ((SymbolName)_symbolName.Value == SymbolName.Tab)
+					text = "tab";
+				else if ((SymbolName)_symbolName.Value == SymbolName.LineBreak)
+					text = "br";
+				else if ((SymbolName)_symbolName.Value == SymbolName.ParaBreak)
+					//text = "ParagraphBreak";
+					throw new NotImplementedException("ParagraphBreak");
+				//else if (symbolType == SymbolName.MarginBreak)
+				//  text = "\\marginbreak ";
+
+				if (text != "")
+                {
+					/*serializer.WriteStartElement("Chr");
+					serializer.WriteSimpleAttribute("Value", text);
+					serializer.WriteEndElement();*/
+					serializer.WriteElement(text);
+					return;
+                }
+            }
+
+            serializer.WriteStartElement("Chr");
+
+            if (((uint)_symbolName.Value & 0xF0000000) == 0xF0000000)
+            {
+                // SymbolName == SpaceType?
+                if (((uint)_symbolName.Value & 0xF1000000) == 0xF1000000)
+                {
+                    if ((SymbolName)_symbolName.Value == SymbolName.Blank)
+                    {
+						//Note: Don't try to optimize it by leaving away the braces in case a single space is added.
+						//This would lead to confusion with '(' in directly following text.
+						//text = "\\space(" + Count + ")";
+						serializer.WriteSimpleAttribute("Value", "Space");
+						serializer.WriteSimpleAttribute("Count", Count);
+                    }
+                    else
+                    {
+                        if (_count == 1)
+                        //text = "\\space(" + SymbolName + ")";
+                        {
+							serializer.WriteSimpleAttribute("Value", "Space");
+							serializer.WriteSimpleAttribute("Symbol", SymbolName);                            
+                        }
+                        else
+                        //text = "\\space(" + SymbolName + ", " + Count + ")";
+                        {
+							serializer.WriteSimpleAttribute("Value", "Space");
+							serializer.WriteSimpleAttribute("Symbol", SymbolName);
+							serializer.WriteSimpleAttribute("Count", Count);
+						}
+                    }
+                }
+                else
+                {
+					//text = "\\symbol(" + SymbolName + ")";					
+					serializer.WriteSimpleAttribute("Symbol", SymbolName);
+                }
+            }
+            else
+            {
+                // symbolType is a (unicode) character
+                //text = " \\chr(0x" + _symbolName.Value.ToString("X") + ")";
+                serializer.WriteSimpleAttribute("Value", "0x" + _symbolName.Value.ToString("X"));
+            }
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -154,6 +154,38 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.Write(", ");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (!IsNull("LineFormat") || !IsNull("FillFormat"))
+            {
+                //serializer.WriteLine("");
+                //serializer.WriteLine("\\point");
+
+                serializer.WriteStartElement("Point");
+
+                serializer.BeginAttributes();
+
+                if (!IsNull("LineFormat"))
+                    _lineFormat.Serialize(serializer);
+                if (!IsNull("FillFormat"))
+                    _fillFormat.Serialize(serializer);
+
+                serializer.EndAttributes();
+
+                //serializer.BeginContent();
+                //serializer.WriteLine(Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                serializer.WriteElement("Value", Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                //serializer.EndContent();
+
+                serializer.WriteEndElement();
+            }
+            else
+                //serializer.Write(Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                serializer.WriteElement("Point", Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+
+            //serializer.Write(", ");
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

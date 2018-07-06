@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!PDFsharp", "!PDFsharp", "{603BA43F-715B-471B-897B-871FD0EC35A8}"
 EndProject
@@ -269,5 +269,8 @@ Global
 		{5A6055BC-BF86-4FDD-9F62-0109DB7A303B} = {603BA43F-715B-471B-897B-871FD0EC35A8}
 		{6F98A822-41B0-4C7A-85A6-E95C1D3E88EF} = {603BA43F-715B-471B-897B-871FD0EC35A8}
 		{CFDB7D46-EA8D-47DE-B10A-9E755A1B48BA} = {603BA43F-715B-471B-897B-871FD0EC35A8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B658173-198E-4C79-95CC-9C7FE8C6BCB7}
 	EndGlobalSection
 EndGlobal

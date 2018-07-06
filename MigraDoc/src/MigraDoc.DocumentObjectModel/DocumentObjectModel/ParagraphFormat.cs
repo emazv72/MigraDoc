@@ -392,6 +392,15 @@ namespace MigraDoc.DocumentObjectModel
                 Serialize(serializer, "Format", null);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (_parent is Style)
+                Serialize(serializer, "ParagraphFormat", null);
+            else
+                Serialize(serializer, "Format", null);
+        }
+
+
         /// <summary>
         /// Converts ParagraphFormat into DDL.
         /// </summary>
@@ -464,6 +473,83 @@ namespace MigraDoc.DocumentObjectModel
                 _shading.Serialize(serializer);
 
             serializer.EndContent(pos);
+        }
+
+        internal void Serialize(XmlSerializer serializer, string name, ParagraphFormat refFormat)
+        {
+            serializer.WriteStartElement(name);
+
+            //int pos = serializer.BeginContent(name);
+
+//            if (!IsNull("Font") && Parent.GetType() != typeof(Style))
+                //Font.Serialize(serializer);
+
+            // If a refFormat is specified, it is important to compare the fields and not the properties.
+            // Only the fields holds the internal information whether a value is NULL. In contrast to the
+            // Efw.Application framework the nullable values and all the meta stuff is kept internal to
+            // give the user the illusion of simplicity.
+
+            if (!_alignment.IsNull && (refFormat == null || (_alignment != refFormat._alignment)))
+                serializer.WriteSimpleAttribute("Alignment", Alignment);
+
+            if (!_leftIndent.IsNull && (refFormat == null || (_leftIndent != refFormat._leftIndent)))
+                serializer.WriteSimpleAttribute("LeftIndent", LeftIndent);
+
+            if (!_firstLineIndent.IsNull && (refFormat == null || _firstLineIndent != refFormat._firstLineIndent))
+                serializer.WriteSimpleAttribute("FirstLineIndent", FirstLineIndent);
+
+            if (!_rightIndent.IsNull && (refFormat == null || _rightIndent != refFormat._rightIndent))
+                serializer.WriteSimpleAttribute("RightIndent", RightIndent);
+
+            if (!_spaceBefore.IsNull && (refFormat == null || _spaceBefore != refFormat._spaceBefore))
+                serializer.WriteSimpleAttribute("SpaceBefore", SpaceBefore);
+
+            if (!_spaceAfter.IsNull && (refFormat == null || _spaceAfter != refFormat._spaceAfter))
+                serializer.WriteSimpleAttribute("SpaceAfter", SpaceAfter);
+
+            if (!_lineSpacingRule.IsNull && (refFormat == null || _lineSpacingRule != refFormat._lineSpacingRule))
+                serializer.WriteSimpleAttribute("LineSpacingRule", LineSpacingRule);
+
+            if (!_lineSpacing.IsNull && (refFormat == null || _lineSpacing != refFormat._lineSpacing))
+                serializer.WriteSimpleAttribute("LineSpacing", LineSpacing);
+
+            if (!_keepTogether.IsNull && (refFormat == null || _keepTogether != refFormat._keepTogether))
+                serializer.WriteSimpleAttribute("KeepTogether", KeepTogether);
+
+            if (!_keepWithNext.IsNull && (refFormat == null || _keepWithNext != refFormat._keepWithNext))
+                serializer.WriteSimpleAttribute("KeepWithNext", KeepWithNext);
+
+            if (!_widowControl.IsNull && (refFormat == null || _widowControl != refFormat._widowControl))
+                serializer.WriteSimpleAttribute("WidowControl", WidowControl);
+
+            if (!_pageBreakBefore.IsNull && (refFormat == null || _pageBreakBefore != refFormat._pageBreakBefore))
+                serializer.WriteSimpleAttribute("PageBreakBefore", PageBreakBefore);
+
+            if (!_outlineLevel.IsNull && (refFormat == null || _outlineLevel != refFormat._outlineLevel))
+                serializer.WriteSimpleAttribute("OutlineLevel", OutlineLevel);
+
+            if (!IsNull("Font") && Parent.GetType() != typeof(Style))
+                Font.Serialize(serializer);
+
+            if (!IsNull("ListInfo"))
+                ListInfo.Serialize(serializer);
+
+            if (!IsNull("TabStops"))
+                _tabStops.Serialize(serializer);
+
+            if (!IsNull("Borders"))
+            {
+                if (refFormat != null)
+                    _borders.Serialize(serializer, refFormat.Borders);
+                else
+                    _borders.Serialize(serializer, null);
+            }
+
+            if (!IsNull("Shading"))
+                _shading.Serialize(serializer);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement(); // paragraphFormat
         }
 
         /// <summary>

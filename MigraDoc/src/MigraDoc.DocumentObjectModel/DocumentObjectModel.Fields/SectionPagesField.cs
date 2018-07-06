@@ -76,6 +76,18 @@ namespace MigraDoc.DocumentObjectModel.Fields
             serializer.Write(str);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("Field");
+
+            serializer.WriteSimpleAttribute("Type", "SectionPages");
+            if (_format.Value != string.Empty)
+                serializer.WriteSimpleAttribute("Format", Format);
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

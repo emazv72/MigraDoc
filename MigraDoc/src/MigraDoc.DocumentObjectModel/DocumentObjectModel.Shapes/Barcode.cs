@@ -184,6 +184,40 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             serializer.EndAttributes(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (_code.Value == "")
+                throw new InvalidOperationException(DomSR.MissingObligatoryProperty("Name", "BookmarkField"));
+
+            serializer.WriteStartElement("Barcode");
+
+            serializer.WriteElement("Code", Code);
+            //serializer.WriteLine("\\barcode(\"" + Code + "\")");
+
+            // int pos = serializer.BeginAttributes();
+
+            base.Serialize(serializer);
+
+            if (!_orientation.IsNull)
+                serializer.WriteSimpleAttribute("Orientation", Orientation);
+            if (!_bearerBars.IsNull)
+                serializer.WriteSimpleAttribute("BearerBars", BearerBars);
+            if (!_text.IsNull)
+                serializer.WriteSimpleAttribute("Text", Text);
+            if (!_type.IsNull)
+                serializer.WriteSimpleAttribute("Type", Type);
+            if (!_lineRatio.IsNull)
+                serializer.WriteSimpleAttribute("LineRatio", LineRatio);
+            if (!_lineHeight.IsNull)
+                serializer.WriteSimpleAttribute("LineHeight", LineHeight);
+            if (!_narrowLineWidth.IsNull)
+                serializer.WriteSimpleAttribute("NarrowLineWidth", NarrowLineWidth);
+
+            serializer.WriteEndElement(); // barcode
+
+            //serializer.EndAttributes(pos);
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

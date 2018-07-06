@@ -362,6 +362,43 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("Styles");
+
+            serializer.WriteComment(_comment.Value);
+
+            //int pos = serializer.BeginContent("\\styles");
+
+            //int pos = serializer.BeginContent("styles");
+
+            // A style can only be added to Styles if its base style exists. Therefore the
+            // styles collection is consistent at any one time by definition. But because it 
+            // is possible to change the base style of a style, the sequence of the styles 
+            // in the styles collection can be in an order that a style comes before its base
+            // style. The styles in an DDL file must be ordered such that each style appears
+            // after its base style. We cannot simply reorder the styles collection, because
+            // the predefined styles are expected at a fixed position.
+            // The solution is to reorder the styles during serialization.
+            int count = Count;
+            bool[] fSerialized = new bool[count];  // already serialized
+            fSerialized[0] = true;                       // consider DefaultParagraphFont as serialized
+            bool[] fSerializePending = new bool[count];  // currently serializing
+            bool newLine = false;  // gets true if at least one style was written
+            //Start from 1 and do not serialize DefaultParagraphFont
+            for (int index = 1; index < count; index++)
+            {
+                if (!fSerialized[index])
+                {
+                    Style style = this[index];
+                    SerializeStyle(serializer, index, ref fSerialized, ref fSerializePending, ref newLine);
+                }
+            }
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement();
+        }    
+
         /// <summary>
         /// Serialize a style, but serialize its base style first (if that was not yet done).
         /// </summary>
@@ -402,6 +439,48 @@ namespace MigraDoc.DocumentObjectModel
             style.Serialize(serializer);
             if (serializer.EndBlock(pos2))
                 newLine = true;
+            fSerialized[index] = true;
+        }
+
+        void SerializeStyle(XmlSerializer serializer, int index, ref bool[] fSerialized, ref bool[] fSerializePending,
+          ref bool newLine)
+        {
+            Style style = this[index];
+
+            // It is not possible to modify the default paragraph font
+            if (style.Name == Style.DefaultParagraphFontName)
+                return;
+
+            // Circular dependencies cannot occur if changing the base style is implemented
+            // correctly. But before we proof that, we check it here.
+            if (fSerializePending[index])
+            {
+                string message = String.Format("Circular dependency detected according to style '{0}'.", style.Name);
+                throw new InvalidOperationException(message);
+            }
+
+            // Only style 'Normal' has no base style
+            if (style.BaseStyle != "")
+            {
+                int idxBaseStyle = GetIndex(style.BaseStyle);
+                if (idxBaseStyle != -1)
+                {
+                    if (!fSerialized[idxBaseStyle])
+                    {
+                        fSerializePending[index] = true;
+                        SerializeStyle(serializer, idxBaseStyle, ref fSerialized, ref fSerializePending, ref newLine);
+                        fSerializePending[index] = false;
+                    }
+                }
+            }
+            //int pos2 = serializer.BeginBlock();
+
+            // TODo
+            //if (newLine)
+                //serializer.WriteLineNoCommit();
+            style.Serialize(serializer);
+            //if (serializer.EndBlock(pos2))
+            //    newLine = true;
             fSerialized[index] = true;
         }
 

@@ -234,6 +234,15 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             else
                 serializer.WriteSimpleAttribute("Left", ShapePosition);
         }
+
+        internal void Serialize(XmlSerializer serializer)
+        {
+            if (_shapePosition == ShapePosition.Undefined)
+                serializer.WriteSimpleAttribute("Left", Position);
+            else
+                serializer.WriteSimpleAttribute("Left", ShapePosition);
+        }
+
         #endregion
 
         /// <summary>

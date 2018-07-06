@@ -212,6 +212,28 @@ namespace MigraDoc.DocumentObjectModel
             }
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            int count = Count;
+            if (count == 1 && this[0] is Paragraph)
+            {
+                // Omit keyword if paragraph has no attributes set.
+                Paragraph paragraph = (Paragraph)this[0];
+                if (paragraph.Style == "" && paragraph.IsNull("Format"))
+                {
+                    paragraph.SerializeContentOnly = true;
+                    paragraph.Serialize(serializer);
+                    paragraph.SerializeContentOnly = false;
+                    return;
+                }
+            }
+            for (int index = 0; index < count; index++)
+            {
+                DocumentObject documentElement = this[index];
+                documentElement.Serialize(serializer);
+            }
+        }
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

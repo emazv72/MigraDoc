@@ -64,6 +64,12 @@
     <Compile Include="DocumentObjectModel.Internals\NInt.cs" />
     <Compile Include="DocumentObjectModel.Internals\NString.cs" />
     <Compile Include="DocumentObjectModel.Internals\ValueDescriptor.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\DdlParser.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\DdlReader.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\DdlWriter.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\Elements.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\enums\XmlSymbol.cs" />
+    <Compile Include="DocumentObjectModel.IO.Xml\AttributeScanner.cs" />
     <Compile Include="DocumentObjectModel.IO\DdlParser.cs" />
     <Compile Include="DocumentObjectModel.IO\DdlParserException.cs" />
     <Compile Include="DocumentObjectModel.IO\DdlReader.cs" />
@@ -175,6 +181,7 @@
     <Compile Include="DocumentObjectModel\enums\TabAlignment.cs" />
     <Compile Include="DocumentObjectModel\enums\TabLeader.cs" />
     <Compile Include="DocumentObjectModel\enums\TextFormat.cs" />
+    <Compile Include="DocumentObjectModel\enums\SerializationFormat.cs" />
     <Compile Include="DocumentObjectModel\enums\Underline.cs" />
     <Compile Include="DocumentObjectModel\enums\UnitType.cs" />
     <Compile Include="DocumentObjectModel\Font.cs" />
@@ -192,6 +199,7 @@
     <Compile Include="DocumentObjectModel\ParagraphFormat.cs" />
     <Compile Include="DocumentObjectModel\Section.cs" />
     <Compile Include="DocumentObjectModel\Sections.cs" />
+    <Compile Include="DocumentObjectModel\XmlSerializer.cs" />
     <Compile Include="DocumentObjectModel\Serializer.cs" />
     <Compile Include="DocumentObjectModel\Shading.cs" />
     <Compile Include="DocumentObjectModel\Style.cs" />

@@ -230,6 +230,15 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             else
                 serializer.WriteSimpleAttribute("Top", ShapePosition);
         }
+
+        internal void Serialize(XmlSerializer serializer)
+        {
+            if (_shapePosition == ShapePosition.Undefined)
+                serializer.WriteSimpleAttribute("Top", Position);
+            else
+                serializer.WriteSimpleAttribute("Top", ShapePosition);
+        }
+
         #endregion
 
         /// <summary>

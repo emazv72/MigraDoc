@@ -185,6 +185,34 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\plotarea");
+            serializer.WriteStartElement("PlotArea");
+            
+
+            if (!_topPadding.IsNull)
+                serializer.WriteSimpleAttribute("TopPadding", TopPadding);
+            if (!_leftPadding.IsNull)
+                serializer.WriteSimpleAttribute("LeftPadding", LeftPadding);
+            if (!_rightPadding.IsNull)
+                serializer.WriteSimpleAttribute("RightPadding", RightPadding);
+            if (!_bottomPadding.IsNull)
+                serializer.WriteSimpleAttribute("BottomPadding", BottomPadding);
+
+            serializer.BeginAttributes();
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+            if (!IsNull("FillFormat"))
+                _fillFormat.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            //serializer.EndContent();
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -144,6 +144,12 @@ namespace MigraDoc.DocumentObjectModel
             throw new Exception("A Border cannot be serialized alone.");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            throw new Exception("A Border cannot be serialized alone.");
+        }
+
+
         /// <summary>
         /// Converts Border into DDL.
         /// </summary>
@@ -167,6 +173,33 @@ namespace MigraDoc.DocumentObjectModel
                 serializer.WriteSimpleAttribute("Color", Color);
 
             serializer.EndContent(pos);
+        }
+
+        internal void Serialize(XmlSerializer serializer, string name, Border refBorder)
+        {
+            serializer.WriteStartElement(name);
+
+            if (_fClear.Value)
+                //serializer.WriteLine(name + " = null");
+                serializer.WriteSimpleAttribute("Clear",true);
+
+            //int pos = serializer.BeginContent(name);
+
+            if (!_visible.IsNull && (refBorder == null || (Visible != refBorder.Visible)))
+                serializer.WriteSimpleAttribute("Visible", Visible);
+
+            if (!_style.IsNull && (refBorder == null || (Style != refBorder.Style)))
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            if (!_width.IsNull && (refBorder == null || (Width != refBorder.Width)))
+                serializer.WriteSimpleAttribute("Width", Width);
+
+            if (!_color.IsNull && (refBorder == null || (Color != refBorder.Color)))
+                serializer.WriteSimpleAttribute("Color", Color);
+
+            //serializer.EndContent(pos);
+
+            serializer.WriteEndElement(); //
         }
 
         /// <summary>

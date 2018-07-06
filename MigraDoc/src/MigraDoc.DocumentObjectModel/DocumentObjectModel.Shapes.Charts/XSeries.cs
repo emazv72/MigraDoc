@@ -115,6 +115,18 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\xvalues");
+            serializer.WriteStartElement("XSeries");
+
+            //serializer.BeginContent();
+            _xSeriesElements.Serialize(serializer);
+            //serializer.WriteLine("");
+            //serializer.EndContent();
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

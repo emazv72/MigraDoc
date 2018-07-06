@@ -200,6 +200,48 @@ namespace MigraDoc.DocumentObjectModel.Tables
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Rows");
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\rows");
+
+            //int pos = serializer.BeginAttributes();
+
+            if (!_alignment.IsNull)
+                serializer.WriteSimpleAttribute("Alignment", Alignment);
+
+            if (!_height.IsNull)
+                serializer.WriteSimpleAttribute("Height", Height);
+
+            if (!_heightRule.IsNull)
+                serializer.WriteSimpleAttribute("HeightRule", HeightRule);
+
+            if (!_leftIndent.IsNull)
+                serializer.WriteSimpleAttribute("LeftIndent", LeftIndent);
+
+            if (!_verticalAlignment.IsNull)
+                serializer.WriteSimpleAttribute("VerticalAlignment", VerticalAlignment);
+
+            //serializer.EndAttributes(pos);
+
+            //serializer.BeginContent();
+            int rows = Count;
+            if (rows > 0)
+            {
+                for (int row = 0; row < rows; row++)
+                    this[row].Serialize(serializer);
+            }
+            else
+                serializer.WriteComment("Invalid - no rows defined. Table will not render.");
+
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

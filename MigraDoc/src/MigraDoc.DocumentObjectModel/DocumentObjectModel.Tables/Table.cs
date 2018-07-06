@@ -451,6 +451,55 @@ namespace MigraDoc.DocumentObjectModel.Tables
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Table");
+
+            serializer.WriteComment(_comment.Value);
+
+            //serializer.WriteLine("\\table");
+
+            if (_style.Value != String.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            //if (!IsNull("Format"))
+            //    _format.Serialize(serializer, "Format", null);
+
+            if (!_topPadding.IsNull)
+                serializer.WriteSimpleAttribute("TopPadding", TopPadding);
+
+            if (!_leftPadding.IsNull)
+                serializer.WriteSimpleAttribute("LeftPadding", LeftPadding);
+
+            if (!_rightPadding.IsNull)
+                serializer.WriteSimpleAttribute("RightPadding", RightPadding);
+
+            if (!_bottomPadding.IsNull)
+                serializer.WriteSimpleAttribute("BottomPadding", BottomPadding);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+
+            if (!IsNull("Borders"))
+                _borders.Serialize(serializer, null);
+
+            if (!IsNull("Shading"))
+                _shading.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            Columns.Serialize(serializer);
+            Rows.Serialize(serializer);
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

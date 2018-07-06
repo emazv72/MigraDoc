@@ -89,6 +89,18 @@ namespace MigraDoc.DocumentObjectModel
             serializer.Write(text);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //string text = DdlEncoder.StringToText(_content.Value);
+            // To make DDL more readable write soft hypens as keywords.
+            //text = text.Replace(new string((char)173, 1), "\\-");
+            //serializer.Write(text);
+
+            //serializer.WriteStartElement("Content");
+            serializer.WriteContent(_content.Value);
+            //serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -316,6 +316,53 @@ namespace MigraDoc.DocumentObjectModel.Tables
             // columns has no content
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Column");
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\column");
+
+            if (_style.Value != String.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            //if (!IsNull("Format"))
+                //_format.Serialize(serializer, "Format", null);
+
+            if (!_headingFormat.IsNull)
+                serializer.WriteSimpleAttribute("HeadingFormat", HeadingFormat);
+
+            if (!_leftPadding.IsNull)
+                serializer.WriteSimpleAttribute("LeftPadding", LeftPadding);
+
+            if (!_rightPadding.IsNull)
+                serializer.WriteSimpleAttribute("RightPadding", RightPadding);
+
+            if (!_width.IsNull)
+                serializer.WriteSimpleAttribute("Width", Width);
+
+            if (!_keepWith.IsNull)
+                serializer.WriteSimpleAttribute("KeepWith", KeepWith);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+            _format.Serialize(serializer, "Format", null);
+
+            if (!IsNull("Borders"))
+                _borders.Serialize(serializer, null);
+
+            if (!IsNull("Shading"))
+                _shading.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            serializer.WriteEndElement(); // column
+
+            // columns has no content
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -305,6 +305,52 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\series");
+
+            serializer.WriteStartElement("Series");
+            
+
+            if (!_name.IsNull)
+                serializer.WriteSimpleAttribute("Name", Name);
+
+            if (!_markerSize.IsNull)
+                serializer.WriteSimpleAttribute("MarkerSize", MarkerSize);
+            if (!_markerStyle.IsNull)
+                serializer.WriteSimpleAttribute("MarkerStyle", MarkerStyle);
+
+            if (!_markerBackgroundColor.IsNull)
+                serializer.WriteSimpleAttribute("MarkerBackgroundColor", MarkerBackgroundColor);
+            if (!_markerForegroundColor.IsNull)
+                serializer.WriteSimpleAttribute("MarkerForegroundColor", MarkerForegroundColor);
+
+            if (!_chartType.IsNull)
+                serializer.WriteSimpleAttribute("ChartType", ChartType);
+
+            if (!_hasDataLabel.IsNull)
+                serializer.WriteSimpleAttribute("HasDataLabel", HasDataLabel);
+            
+            serializer.BeginAttributes();
+
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+            if (!IsNull("FillFormat"))
+                _fillFormat.Serialize(serializer);
+            if (!IsNull("DataLabel"))
+                _dataLabel.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            _seriesElements.Serialize(serializer);
+            //serializer.WriteLine("");
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -610,10 +610,49 @@ namespace MigraDoc.DocumentObjectModel
                 serializer.Write("}");
         }
 
-        /// <summary>
-        /// Allows the visitor object to visit the document object and its child objects.
-        /// </summary>
-        void IVisitable.AcceptVisitor(DocumentObjectVisitor visitor, bool visitChildren)
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            //serializer.WriteStartElement("Text");
+
+            bool isFormatted = false;
+            if (!IsNull("Font"))
+            {
+                Font.Serialize(serializer);
+                isFormatted = true;
+            }
+            else
+            {
+                if (!_style.IsNull)
+                {
+					//serializer.Write("\\font(\"" + Style + "\")");
+					//serializer.WriteSimpleAttribute("Font", Style);
+					serializer.WriteStartElement("Font");
+					serializer.WriteSimpleAttribute("Style", Style);
+					isFormatted = true;
+                }
+            }
+
+            //if (isFormatted)
+                //serializer.Write("{");
+              //  serializer.WriteStartElement("p");
+
+            if (!IsNull("Elements"))
+                Elements.Serialize(serializer);
+
+			//if (isFormatted)
+			//serializer.Write("}");
+			//serializer.WriteEndElement();
+
+			if (isFormatted)
+				serializer.WriteEndElement();
+		}
+
+
+		/// <summary>
+		/// Allows the visitor object to visit the document object and its child objects.
+		/// </summary>
+		void IVisitable.AcceptVisitor(DocumentObjectVisitor visitor, bool visitChildren)
         {
             visitor.VisitFormattedText(this);
 

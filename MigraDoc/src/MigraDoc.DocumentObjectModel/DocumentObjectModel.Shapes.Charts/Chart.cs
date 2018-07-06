@@ -511,6 +511,66 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\chart(" + Type + ")");
+            serializer.WriteStartElement("Chart");
+
+            serializer.WriteSimpleAttribute("Type", Type);            
+
+            base.Serialize(serializer);
+            if (!_displayBlanksAs.IsNull)
+                serializer.WriteSimpleAttribute("DisplayBlanksAs", DisplayBlanksAs);
+            if (!_pivotChart.IsNull)
+                serializer.WriteSimpleAttribute("PivotChart", PivotChart);
+            if (!_hasDataLabel.IsNull)
+                serializer.WriteSimpleAttribute("HasDataLabel", HasDataLabel);
+
+            if (!_style.IsNull)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+            if (!IsNull("DataLabel"))
+                _dataLabel.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+
+            if (!IsNull("PlotArea"))
+                _plotArea.Serialize(serializer);
+            if (!IsNull("HeaderArea"))
+                _headerArea.Serialize(serializer);
+            if (!IsNull("FooterArea"))
+                _footerArea.Serialize(serializer);
+            if (!IsNull("TopArea"))
+                _topArea.Serialize(serializer);
+            if (!IsNull("BottomArea"))
+                _bottomArea.Serialize(serializer);
+            if (!IsNull("LeftArea"))
+                _leftArea.Serialize(serializer);
+            if (!IsNull("RightArea"))
+                _rightArea.Serialize(serializer);
+
+            if (!IsNull("XAxis"))
+                _xAxis.Serialize(serializer);
+            if (!IsNull("YAxis"))
+                _yAxis.Serialize(serializer);
+            if (!IsNull("ZAxis"))
+                _zAxis.Serialize(serializer);
+
+            if (!IsNull("SeriesCollection"))
+                _seriesCollection.Serialize(serializer);
+            if (!IsNull("XValues"))
+                _xValues.Serialize(serializer);
+
+            //serializer.EndContent();
+            serializer.WriteEndElement();
+
+        }
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

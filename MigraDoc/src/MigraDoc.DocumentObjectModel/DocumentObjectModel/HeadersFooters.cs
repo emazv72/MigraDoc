@@ -183,6 +183,25 @@ namespace MigraDoc.DocumentObjectModel
                 FirstPage.Serialize(serializer, "firstpage");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            bool hasPrimary = HasHeaderFooter(HeaderFooterIndex.Primary);
+            bool hasEvenPage = HasHeaderFooter(HeaderFooterIndex.EvenPage);
+            bool hasFirstPage = HasHeaderFooter(HeaderFooterIndex.FirstPage);
+
+            // \primary...
+            if (hasPrimary)
+                Primary.Serialize(serializer, "Primary");
+
+            // \even... 
+            if (hasEvenPage)
+                EvenPage.Serialize(serializer, "Evenpage");
+
+            // \firstpage...
+            if (hasFirstPage)
+                FirstPage.Serialize(serializer, "Firstpage");
+        }
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

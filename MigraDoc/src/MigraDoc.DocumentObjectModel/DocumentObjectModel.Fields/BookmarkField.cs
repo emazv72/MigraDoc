@@ -96,6 +96,21 @@ namespace MigraDoc.DocumentObjectModel.Fields
             serializer.Write("\\field(Bookmark)[Name = \"" + Name.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"]");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (_name.Value == string.Empty)
+                throw new InvalidOperationException(DomSR.MissingObligatoryProperty("Name", "BookmarkField"));
+
+            //serializer.Write("\\field(Bookmark)[Name = \"" + Name.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"]");
+            serializer.WriteStartElement("Field");
+
+            serializer.WriteSimpleAttribute("Name", Name);
+            serializer.WriteSimpleAttribute("Type", "Bookmark");
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Determines whether this instance is null (not set).
         /// </summary>

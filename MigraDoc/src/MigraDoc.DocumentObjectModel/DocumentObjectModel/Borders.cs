@@ -379,9 +379,15 @@ namespace MigraDoc.DocumentObjectModel
             Serialize(serializer, null);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            Serialize(serializer, null);
+        }
+
         /// <summary>
         /// Converts Borders into DDL.
         /// </summary>
+       
         internal void Serialize(Serializer serializer, Borders refBorders)
         {
             if (_clearAll)
@@ -432,6 +438,61 @@ namespace MigraDoc.DocumentObjectModel
                 _diagonalUp.Serialize(serializer, "DiagonalUp", null);
 
             serializer.EndContent(pos);
+        }
+
+        internal void Serialize(XmlSerializer serializer, Borders refBorders)
+        {
+            //int pos = serializer.BeginContent("Borders");
+            serializer.WriteStartElement("Borders");
+
+            // TODO era esterno
+            if (_clearAll)
+                serializer.WriteSimpleAttribute("Clear", true);
+
+            if (!_visible.IsNull && (refBorders == null || refBorders._visible.IsNull || (Visible != refBorders.Visible)))
+                serializer.WriteSimpleAttribute("Visible", Visible);
+
+            if (!_style.IsNull && (refBorders == null || (Style != refBorders.Style)))
+                serializer.WriteSimpleAttribute("Style", Style);
+
+            if (!_width.IsNull && (refBorders == null || (_width.Value != refBorders._width.Value)))
+                serializer.WriteSimpleAttribute("Width", Width);
+
+            if (!_color.IsNull && (refBorders == null || ((Color.Argb != refBorders.Color.Argb))))
+                serializer.WriteSimpleAttribute("Color", Color);
+
+            if (!_distanceFromTop.IsNull && (refBorders == null || (DistanceFromTop.Point != refBorders.DistanceFromTop.Point)))
+                serializer.WriteSimpleAttribute("DistanceFromTop", DistanceFromTop);
+
+            if (!_distanceFromBottom.IsNull && (refBorders == null || (DistanceFromBottom.Point != refBorders.DistanceFromBottom.Point)))
+                serializer.WriteSimpleAttribute("DistanceFromBottom", DistanceFromBottom);
+
+            if (!_distanceFromLeft.IsNull && (refBorders == null || (DistanceFromLeft.Point != refBorders.DistanceFromLeft.Point)))
+                serializer.WriteSimpleAttribute("DistanceFromLeft", DistanceFromLeft);
+
+            if (!_distanceFromRight.IsNull && (refBorders == null || (DistanceFromRight.Point != refBorders.DistanceFromRight.Point)))
+                serializer.WriteSimpleAttribute("DistanceFromRight", DistanceFromRight);
+
+            if (!IsNull("Top"))
+                _top.Serialize(serializer, "Top", null);
+
+            if (!IsNull("Left"))
+                _left.Serialize(serializer, "Left", null);
+
+            if (!IsNull("Bottom"))
+                _bottom.Serialize(serializer, "Bottom", null);
+
+            if (!IsNull("Right"))
+                _right.Serialize(serializer, "Right", null);
+
+            if (!IsNull("DiagonalDown"))
+                _diagonalDown.Serialize(serializer, "DiagonalDown", null);
+
+            if (!IsNull("DiagonalUp"))
+                _diagonalUp.Serialize(serializer, "DiagonalUp", null);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement(); // borders
         }
 
         /// <summary>

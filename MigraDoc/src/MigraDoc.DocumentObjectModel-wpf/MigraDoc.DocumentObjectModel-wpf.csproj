@@ -168,6 +168,24 @@
     <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.Internals\ValueDescriptor.cs">
       <Link>DocumentObjectModel.Internals\ValueDescriptor.cs</Link>
     </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\AttributeScanner.cs">
+      <Link>DocumentObjectModel.IO.Xml\AttributeScanner.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\DdlParser.cs">
+      <Link>DocumentObjectModel.IO.Xml\DdlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\DdlReader.cs">
+      <Link>DocumentObjectModel.IO.Xml\DdlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\DdlWriter.cs">
+      <Link>DocumentObjectModel.IO.Xml\DdlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\Elements.cs">
+      <Link>DocumentObjectModel.IO.Xml\Elements.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO.Xml\enums\XmlSymbol.cs">
+      <Link>DocumentObjectModel.IO.Xml\enum\XmlSymbol.cs</Link>
+    </Compile>
     <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel.IO\DdlParser.cs">
       <Link>DocumentObjectModel.IO\DdlParser.cs</Link>
     </Compile>
@@ -486,6 +504,9 @@
     <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel\enums\ParagraphAlignment.cs">
       <Link>DocumentObjectModel\enums\ParagraphAlignment.cs</Link>
     </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel\enums\SerializationFormat.cs">
+      <Link>DocumentObjectModel\enums\SerializationFormat.cs</Link>
+    </Compile>
     <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel\enums\StyleType.cs">
       <Link>DocumentObjectModel\enums\StyleType.cs</Link>
     </Compile>
@@ -585,6 +606,9 @@
     <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel\VersionInfo.cs">
       <Link>DocumentObjectModel\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\MigraDoc.DocumentObjectModel\DocumentObjectModel\XmlSerializer.cs">
+      <Link>DocumentObjectModel\XmlSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\MigraDoc.DocumentObjectModel\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -630,6 +654,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

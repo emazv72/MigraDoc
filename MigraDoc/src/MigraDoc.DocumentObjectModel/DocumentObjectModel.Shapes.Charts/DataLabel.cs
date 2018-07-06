@@ -159,6 +159,26 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //int pos = serializer.BeginContent("DataLabel");
+            serializer.WriteStartElement("DataLabel");
+
+            if (Style != string.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+            if (Format != string.Empty)
+                serializer.WriteSimpleAttribute("Format", Format);
+            if (!_position.IsNull)
+                serializer.WriteSimpleAttribute("Position", Position);
+            if (!_type.IsNull)
+                serializer.WriteSimpleAttribute("Type", Type);
+            if (!IsNull("Font"))
+                _font.Serialize(serializer);
+
+            //serializer.EndContent(pos);
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

@@ -502,6 +502,33 @@ namespace MigraDoc.DocumentObjectModel
             serializer.Write("}");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            if (_name.Value == string.Empty)
+                throw new InvalidOperationException(DomSR.MissingObligatoryProperty("Name", "Hyperlink"));
+
+            //serializer.Write("\\hyperlink");
+            serializer.WriteStartElement("Hyperlink");
+
+            //string str = "[Name = \"" + Name.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+            serializer.WriteSimpleAttribute("Name", Name);
+
+            if (!_type.IsNull)
+                //str += " Type = " + Type;
+                serializer.WriteSimpleAttribute("Type", Type);
+            //str += "]";
+
+            //serializer.Write(str);
+            //serializer.Write("{");
+
+            if (_elements != null)
+                _elements.Serialize(serializer);
+
+            //serializer.Write("}");
+            serializer.WriteEndElement(); //
+        }
+
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

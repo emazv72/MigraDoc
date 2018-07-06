@@ -88,6 +88,19 @@ namespace MigraDoc.DocumentObjectModel.Fields
             serializer.Write(str);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Field");
+
+            serializer.WriteSimpleAttribute("Type", "Date");
+            if (_format.Value != string.Empty)
+                serializer.WriteSimpleAttribute("Format", Format);
+
+            serializer.WriteEndElement();
+        }
+
+
         /// <summary>
         /// Determines whether this instance is null (not set).
         /// </summary>

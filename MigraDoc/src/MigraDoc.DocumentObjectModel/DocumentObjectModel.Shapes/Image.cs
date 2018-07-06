@@ -185,6 +185,34 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             serializer.EndAttributes(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.WriteLine("\\image(\"" + _name.Value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")");
+            serializer.WriteStartElement("Image");
+
+			serializer.WriteSimpleAttribute("Name", _name.Value);
+
+			if (!_scaleWidth.IsNull)
+                serializer.WriteSimpleAttribute("ScaleWidth", ScaleWidth);
+            if (!_scaleHeight.IsNull)
+                serializer.WriteSimpleAttribute("ScaleHeight", ScaleHeight);
+            if (!_lockAspectRatio.IsNull)
+                serializer.WriteSimpleAttribute("LockAspectRatio", LockAspectRatio);
+            if (!_resolution.IsNull)
+                serializer.WriteSimpleAttribute("Resolution", Resolution);
+
+            base.Serialize(serializer);
+
+			serializer.BeginAttributes();
+
+			if (!IsNull("PictureFormat"))
+                _pictureFormat.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Gets the concrete image path, taking into account the DOM document's DdlFile and
         /// ImagePath properties as well as the given working directory (which can be null).

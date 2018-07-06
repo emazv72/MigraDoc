@@ -104,6 +104,19 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             }
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            int count = Count;
+            for (int index = 0; index < count; ++index)
+            {
+                Point point = this[index] as Point;
+                if (point == null)
+                    serializer.WriteElement("Point");
+                else
+                    point.Serialize(serializer);
+            }
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

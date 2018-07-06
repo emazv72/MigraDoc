@@ -66,6 +66,11 @@ namespace MigraDoc.DocumentObjectModel
             serializer.WriteLine("\\pagebreak");
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteElement("Pagebreak");
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

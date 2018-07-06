@@ -426,6 +426,55 @@ namespace MigraDoc.DocumentObjectModel.Tables
             serializer.EndContent(pos);
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+
+            serializer.WriteStartElement("Cell");
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\cell");
+
+            if (_style.Value != String.Empty)
+                serializer.WriteSimpleAttribute("Style", Style);
+
+           // if (!IsNull("Format"))
+             //   _format.Serialize(serializer, "Format", null);
+
+            if (!_mergeDown.IsNull)
+                serializer.WriteSimpleAttribute("MergeDown", MergeDown);
+
+            if (!_mergeRight.IsNull)
+                serializer.WriteSimpleAttribute("MergeRight", MergeRight);
+
+            if (!_verticalAlignment.IsNull)
+                serializer.WriteSimpleAttribute("VerticalAlignment", VerticalAlignment);
+
+            if (_roundedCorner != RoundedCorner.None)
+                serializer.WriteSimpleAttribute("RoundedCorner", RoundedCorner);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Borders"))
+                _borders.Serialize(serializer, null);
+
+            if (!IsNull("Shading"))
+                _shading.Serialize(serializer);
+
+             if (!IsNull("Format"))
+               _format.Serialize(serializer, "Format", null);
+            
+             serializer.EndAttributes();
+
+            //pos = serializer.BeginContent();
+            if (!IsNull("Elements"))
+                _elements.Serialize(serializer);
+
+            //serializer.EndContent(pos);
+
+            serializer.WriteEndElement(); // cell
+        }
+
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

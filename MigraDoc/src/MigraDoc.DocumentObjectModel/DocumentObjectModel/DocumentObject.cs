@@ -142,9 +142,26 @@ namespace MigraDoc.DocumentObjectModel
         private Section _section;
 
         /// <summary>
+        /// Gets or sets the serialization format.
+        /// </summary>
+        public SerializationFormat SerializationFormat
+        {
+            get { return _serializationFormat; }
+            set { _serializationFormat = value; }
+        }
+
+        internal SerializationFormat _serializationFormat = SerializationFormat.DDL;
+
+
+        /// <summary>
         /// Converts DocumentObject into DDL.
         /// </summary>
         internal abstract void Serialize(Serializer serializer);
+
+        /// <summary>
+        /// Converts DocumentObject into XML DDL.
+        /// </summary>
+        internal abstract void Serialize(XmlSerializer serializer);
 
         /// <summary>
         /// Returns the value with the specified name.

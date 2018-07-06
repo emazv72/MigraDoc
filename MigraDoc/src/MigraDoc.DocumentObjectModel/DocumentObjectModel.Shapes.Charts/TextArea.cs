@@ -359,6 +359,55 @@ namespace MigraDoc.DocumentObjectModel.Shapes.Charts
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            Chart chartObject = _parent as Chart;
+
+            //serializer.WriteLine("\\" + chartObject.CheckTextArea(this));
+
+            serializer.WriteStartElement("TextArea");
+
+            serializer.WriteSimpleAttribute("Type", chartObject.CheckTextArea(this));
+
+            if (!_style.IsNull)
+                serializer.WriteSimpleAttribute("Style", Style);
+            if (!IsNull("Format"))
+                _format.Serialize(serializer, "Format", null);
+
+            if (!_topPadding.IsNull)
+                serializer.WriteSimpleAttribute("TopPadding", TopPadding);
+            if (!_leftPadding.IsNull)
+                serializer.WriteSimpleAttribute("LeftPadding", LeftPadding);
+            if (!_rightPadding.IsNull)
+                serializer.WriteSimpleAttribute("RightPadding", RightPadding);
+            if (!_bottomPadding.IsNull)
+                serializer.WriteSimpleAttribute("BottomPadding", BottomPadding);
+
+            if (!_width.IsNull)
+                serializer.WriteSimpleAttribute("Width", Width);
+            if (!_height.IsNull)
+                serializer.WriteSimpleAttribute("Height", Height);
+
+            if (!_verticalAlignment.IsNull)
+                serializer.WriteSimpleAttribute("VerticalAlignment", VerticalAlignment);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("LineFormat"))
+                _lineFormat.Serialize(serializer);
+            if (!IsNull("FillFormat"))
+                _fillFormat.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            if (_elements != null)
+                _elements.Serialize(serializer);
+            //serializer.EndContent();
+
+            serializer.WriteEndElement();
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>

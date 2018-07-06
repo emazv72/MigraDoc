@@ -349,6 +349,56 @@ namespace MigraDoc.DocumentObjectModel
             serializer.Flush();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartDocument();
+
+            serializer.WriteComment(_comment.Value);
+            //serializer.WriteLine("\\document");
+            serializer.WriteStartElement("Document");
+
+            
+
+            //if (!IsNull("Info"))
+            //   Info.Serialize(serializer);
+
+            if (!_defaultTabStop.IsNull)
+                serializer.WriteSimpleAttribute("DefaultTabStop", DefaultTabStop);
+            if (!_footnoteLocation.IsNull)
+                serializer.WriteSimpleAttribute("FootnoteLocation", FootnoteLocation);
+            if (!_footnoteNumberingRule.IsNull)
+                serializer.WriteSimpleAttribute("FootnoteNumberingRule", FootnoteNumberingRule);
+            if (!_footnoteNumberStyle.IsNull)
+                serializer.WriteSimpleAttribute("FootnoteNumberStyle", FootnoteNumberStyle);
+            if (!_footnoteStartingNumber.IsNull)
+                serializer.WriteSimpleAttribute("FootnoteStartingNumber", FootnoteStartingNumber);
+            if (!_imagePath.IsNull)
+                serializer.WriteSimpleAttribute("ImagePath", ImagePath);
+            if (!_useCmykColor.IsNull)
+                serializer.WriteSimpleAttribute("UseCmykColor", UseCmykColor);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("Info"))
+               Info.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            Styles.Serialize(serializer);
+
+            if (!IsNull("Sections"))
+                Sections.Serialize(serializer);
+
+            //serializer.EndContent();
+
+            serializer.WriteEndElement(); // document
+
+            serializer.WriteEndDocument();
+
+            serializer.Flush();
+        }
+   
         /// <summary>
         /// Allows the visitor object to visit the document object and all its child objects.
         /// </summary>

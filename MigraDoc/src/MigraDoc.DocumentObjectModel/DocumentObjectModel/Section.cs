@@ -350,6 +350,34 @@ namespace MigraDoc.DocumentObjectModel
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            serializer.WriteStartElement("Section");
+
+            serializer.WriteComment(_comment.Value);
+
+            serializer.BeginAttributes();
+
+            if (!IsNull("PageSetup"))
+                PageSetup.Serialize(serializer);
+
+            serializer.EndAttributes();
+
+            //serializer.BeginContent();
+            if (!IsNull("headers"))
+                _headers.Serialize(serializer);
+            if (!IsNull("footers"))
+                _footers.Serialize(serializer);
+            if (!IsNull("elements"))
+                _elements.Serialize(serializer);
+
+            //serializer.EndContent();
+
+            serializer.WriteEndElement(); // section
+
+        }
+
+
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
         /// </summary>

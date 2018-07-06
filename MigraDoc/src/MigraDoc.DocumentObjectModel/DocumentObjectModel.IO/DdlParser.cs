@@ -176,6 +176,7 @@ namespace MigraDoc.DocumentObjectModel.IO
             //   {
             //     ...
             //   }
+
             Style style = null;
             try
             {

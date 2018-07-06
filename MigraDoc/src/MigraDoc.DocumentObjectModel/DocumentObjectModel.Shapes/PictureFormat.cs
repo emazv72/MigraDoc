@@ -127,6 +127,25 @@ namespace MigraDoc.DocumentObjectModel.Shapes
             serializer.EndContent();
         }
 
+        internal override void Serialize(XmlSerializer serializer)
+        {
+            //serializer.BeginContent("PictureFormat");
+            serializer.WriteStartElement("PictureFormat");
+
+            if (!_cropLeft.IsNull)
+                serializer.WriteSimpleAttribute("CropLeft", CropLeft);
+            if (!_cropRight.IsNull)
+                serializer.WriteSimpleAttribute("CropRight", CropRight);
+            if (!_cropTop.IsNull)
+                serializer.WriteSimpleAttribute("CropTop", CropTop);
+            if (!_cropBottom.IsNull)
+                serializer.WriteSimpleAttribute("CropBottom", CropBottom);
+
+            //serializer.EndContent();
+            serializer.WriteEndElement();
+
+        }
+
         /// <summary>
         /// Returns the meta object of this instance.
         /// </summary>
