@@ -662,6 +662,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			if (IsStartElement())
 			{
+				MoveNext(false);
 				ParseFormattedText(formattedText.Elements);
 
 				AssertSymbol(symbol, true);
