@@ -161,7 +161,7 @@ namespace MigraDoc.Rendering
 					FormatFooter(hfp, ChooseHeaderFooter(footers, pagePos));
 
 				hfp = new HeaderFooterPosition(_sectionNumber, PagePosition.Last);
-				if (!_formattedHeaders.ContainsKey(hfp))
+				if (!_formattedFooters.ContainsKey(hfp))
 					FormatFooter(hfp, ChooseHeaderFooter(footers, PagePosition.Last));
 			}
 		}
