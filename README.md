@@ -1,7 +1,9 @@
 
-# XML based alternative serialization support
+This is ( almost ) the master branch with a couple features.
 
-This version add support to an alternative format for serialization based on XML.
+# XML based alternative serialization and deserialization support
+
+This version add support to an alternative format for serialization based on XML. A sample MigraDoc/XML file can be found [here](https://raw.githubusercontent.com/emazv72/MigraDoc-samples/master/samples/xml/MigraDoc.xml) 
 
 It can be used like this:
 
@@ -25,7 +27,23 @@ It can be used like this:
 				}
 
 			}
+            
+# Last page header and footer
 
+- Add the DifferentLastPageHeaderFooter flag to enable the feature and add the corresponding headers and footers
+
+        <Section>
+            <Attributes>
+                <PageSetup PageHeight="29.7cm" PageWidth="21cm" Orientation="Portrait" DifferentLastPageHeaderFooter="true"/>
+            </Attributes>
+            <LastPageHeader>
+            ....
+            </LastPageHeader>
+            <LastPageFooter>
+            ....
+            </LastPageFooter>
+        </Section>
+        
 # MigraDoc
 MigraDoc Foundation - Creating documents on the fly
 
