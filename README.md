@@ -1,5 +1,4 @@
-
-This is ( almost ) the master branch with a couple features.
+- This is ( almost ) the master branch with a couple added features.
 
 # XML based alternative serialization and deserialization support
 
@@ -30,7 +29,7 @@ It can be used like this:
             
 # Last page header and footer
 
-- Add the DifferentLastPageHeaderFooter flag to enable the feature and add the corresponding headers and footers
+- Add the DifferentLastPageHeaderFooter flag and the corresponding headers and footers
 
         <Section>
             <Attributes>
