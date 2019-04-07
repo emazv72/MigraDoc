@@ -52,8 +52,10 @@ namespace MigraDoc.DocumentObjectModel.IO
             EnumToName.Add(Symbol.PrimaryHeader, @"\primaryheader");
             EnumToName.Add(Symbol.PrimaryFooter, @"\primaryfooter");
             EnumToName.Add(Symbol.FirstPageHeader, @"\firstpageheader");
-            EnumToName.Add(Symbol.FirstPageFooter, @"\firstpagefooter");
-            EnumToName.Add(Symbol.EvenPageHeader, @"\evenpageheader");
+			EnumToName.Add(Symbol.LastPageHeader, @"\lastpageheader");
+			EnumToName.Add(Symbol.FirstPageFooter, @"\firstpagefooter");
+			EnumToName.Add(Symbol.LastPageFooter, @"\lastpagefooter");
+			EnumToName.Add(Symbol.EvenPageHeader, @"\evenpageheader");
             EnumToName.Add(Symbol.EvenPageFooter, @"\evenpagefooter");
             EnumToName.Add(Symbol.Table, @"\table");
             EnumToName.Add(Symbol.Columns, @"\columns");

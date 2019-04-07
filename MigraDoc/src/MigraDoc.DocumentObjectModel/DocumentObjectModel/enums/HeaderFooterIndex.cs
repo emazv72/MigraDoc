@@ -47,9 +47,14 @@ namespace MigraDoc.DocumentObjectModel
         /// </summary>
         FirstPage = 1,
 
-        /// <summary>
-        /// Header or footer for the even pages of the section.
-        /// </summary>
-        EvenPage = 2
+		/// <summary>
+		/// Header or footer for the last page of the section.
+		/// </summary>
+		LastPage = 2,
+
+		/// <summary>
+		/// Header or footer for the even pages of the section.
+		/// </summary>
+		EvenPage = 3
     }
 }

@@ -568,14 +568,18 @@ namespace MigraDoc.DocumentObjectModel.Visitors
                     section.Headers._evenPage = prevSec.Headers._evenPage;
                 if (!section.Headers.HasHeaderFooter(HeaderFooterIndex.FirstPage))
                     section.Headers._firstPage = prevSec.Headers._firstPage;
+				if (!section.Headers.HasHeaderFooter(HeaderFooterIndex.LastPage))
+					section.Headers._lastPage = prevSec.Headers._lastPage;
 
-                if (!section.Footers.HasHeaderFooter(HeaderFooterIndex.Primary))
+				if (!section.Footers.HasHeaderFooter(HeaderFooterIndex.Primary))
                     section.Footers._primary = prevSec.Footers._primary;
                 if (!section.Footers.HasHeaderFooter(HeaderFooterIndex.EvenPage))
                     section.Footers._evenPage = prevSec.Footers._evenPage;
                 if (!section.Footers.HasHeaderFooter(HeaderFooterIndex.FirstPage))
                     section.Footers._firstPage = prevSec.Footers._firstPage;
-            }
+				if (!section.Footers.HasHeaderFooter(HeaderFooterIndex.LastPage))
+					section.Footers._lastPage = prevSec.Footers._lastPage;
+			}
 
             if (section._pageSetup == null)
                 section._pageSetup = prevPageSetup;

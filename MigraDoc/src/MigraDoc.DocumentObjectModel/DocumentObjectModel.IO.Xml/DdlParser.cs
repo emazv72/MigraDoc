@@ -277,7 +277,8 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			return (sym == XmlSymbol.Header || sym == XmlSymbol.Footer ||
 			  sym == XmlSymbol.PrimaryHeader || sym == XmlSymbol.PrimaryFooter ||
 			  sym == XmlSymbol.EvenPageHeader || sym == XmlSymbol.EvenPageFooter ||
-			  sym == XmlSymbol.FirstPageHeader || sym == XmlSymbol.FirstPageFooter);
+			  sym == XmlSymbol.FirstPageHeader || sym == XmlSymbol.FirstPageFooter ||
+			  sym == XmlSymbol.LastPageHeader || sym == XmlSymbol.LastPageFooter);
 		}
 
 		/// <summary>
@@ -333,6 +334,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 				bool isHeader = hdrFtrSym == XmlSymbol.Header ||
 				  hdrFtrSym == XmlSymbol.PrimaryHeader ||
 				  hdrFtrSym == XmlSymbol.FirstPageHeader ||
+				  hdrFtrSym == XmlSymbol.LastPageHeader ||
 				  hdrFtrSym == XmlSymbol.EvenPageHeader;
 
 				// Recall that the styles "Header" resp. "Footer" are used as default if
@@ -350,6 +352,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 					headersFooters.Primary = headerFooter.Clone();
 					headersFooters.EvenPage = headerFooter.Clone();
 					headersFooters.FirstPage = headerFooter.Clone();
+					headersFooters.LastPage = headerFooter.Clone();
 				}
 				else
 				{
@@ -368,6 +371,10 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						case XmlSymbol.FirstPageHeader:
 						case XmlSymbol.FirstPageFooter:
 							headersFooters.FirstPage = headerFooter;
+							break;
+						case XmlSymbol.LastPageHeader:
+						case XmlSymbol.LastPageFooter:
+							headersFooters.LastPage = headerFooter;
 							break;
 					}
 				}
