@@ -334,10 +334,21 @@ namespace MigraDoc.DocumentObjectModel.Tables
         [DV]
         internal RoundedCorner _roundedCorner;
 
-        /// <summary>
-        /// Gets or sets the number of cells to be merged right.
-        /// </summary>
-        public int MergeRight
+		/// <summary>
+		/// Gets or sets the rounder corner radius
+		/// </summary>
+		public Unit RoundedCornerRadius
+		{
+			get { return _roundedCornerRadius; }
+			set { _roundedCornerRadius = value; }
+		}
+		[DV]
+		internal Unit _roundedCornerRadius = Unit.NullValue;
+
+		/// <summary>
+		/// Gets or sets the number of cells to be merged right.
+		/// </summary>
+		public int MergeRight
         {
             get { return _mergeRight.Value; }
             set { _mergeRight.Value = value; }
@@ -418,7 +429,10 @@ namespace MigraDoc.DocumentObjectModel.Tables
             if (_roundedCorner != RoundedCorner.None)
                 serializer.WriteSimpleAttribute("RoundedCorner", RoundedCorner);
 
-            serializer.EndAttributes(pos);
+			if (!_roundedCornerRadius.IsNull)
+				serializer.WriteSimpleAttribute("RoundedCornerRadius", RoundedCornerRadius);
+
+			serializer.EndAttributes(pos);
 
             pos = serializer.BeginContent();
             if (!IsNull("Elements"))
@@ -452,9 +466,10 @@ namespace MigraDoc.DocumentObjectModel.Tables
             if (_roundedCorner != RoundedCorner.None)
                 serializer.WriteSimpleAttribute("RoundedCorner", RoundedCorner);
 
-            serializer.BeginAttributes();
+			if (!_roundedCornerRadius.IsNull)
+				serializer.WriteSimpleAttribute("RoundedCornerRadius", RoundedCornerRadius);
 
-            if (!IsNull("Borders"))
+			if (!IsNull("Borders"))
                 _borders.Serialize(serializer, null);
 
             if (!IsNull("Shading"))
