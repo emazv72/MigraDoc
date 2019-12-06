@@ -220,6 +220,8 @@ namespace MigraDoc.Rendering
 					break;
 
 				fieldInfos.SectionPages = _sectionPages;
+
+				fieldInfos.LastPage = _currentPage;
 			}
 		}
 
@@ -272,7 +274,7 @@ namespace MigraDoc.Rendering
 			if (page == 1)
 				pagePos = PagePosition.First;
 			else
-			if (page == _pageCount)
+			if (page == fieldInfos.LastPage)
 				pagePos = PagePosition.Last;
 			else //page > 1
 			{
@@ -304,7 +306,7 @@ namespace MigraDoc.Rendering
 
 			PagePosition pagePos = logicalPage % 2 == 0 ? PagePosition.Even : PagePosition.Odd;
 
-			if (page == _pageCount)
+			if (page == fieldInfos.LastPage)
 				pagePos = PagePosition.Last;
 			else
 			if (page == 1)
