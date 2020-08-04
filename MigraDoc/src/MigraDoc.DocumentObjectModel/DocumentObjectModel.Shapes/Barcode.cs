@@ -117,10 +117,11 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         [DV]
         internal NString _code = NString.NullValue;
 
+        /*
         /// <summary>
         /// ???
         /// </summary>
-        /*public double LineRatio
+        public double LineRatio
         {
             get { return _lineRatio.Value; }
             set { _lineRatio.Value = value; }
@@ -129,10 +130,11 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         internal NDouble _lineRatio = NDouble.NullValue;
         */
 
+        /*
         /// <summary>
         /// ???
         /// </summary>
-        /*public double LineHeight
+        public double LineHeight
         {
             get { return _lineHeight.Value; }
             set { _lineHeight.Value = value; }
@@ -141,10 +143,10 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         internal NDouble _lineHeight = NDouble.NullValue;
         */
 
+        /*
         /// <summary>
         /// ???
         /// </summary>
-        /*
         public double NarrowLineWidth
         {
             get { return _narrowLineWidth.Value; }
