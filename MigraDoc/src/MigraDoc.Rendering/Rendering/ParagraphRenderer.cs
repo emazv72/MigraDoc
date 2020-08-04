@@ -1543,14 +1543,15 @@ namespace MigraDoc.Rendering
                     return FormatPageRefField((PageRefField)docObj);
 
                 case "Image":
-                    return FormatImage((Image)docObj);
+                case "Barcode":
+                    return FormatImage(/*(Image)docObj*/);
 
                 default:
                     return FormatResult.Continue;
             }
         }
 
-        FormatResult FormatImage(Image image)
+        FormatResult FormatImage(/*Image image*/)
         {
             XUnit width = CurrentImageRenderInfo.LayoutInfo.ContentArea.Width;
             return FormatAsWord(width);

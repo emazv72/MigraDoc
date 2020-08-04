@@ -1133,7 +1133,6 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			}
 		}
 
-		// TODO
 		private void ParseBarcode(DocumentElements elements)
 		{
 			// Syntax:
