@@ -1,4 +1,4 @@
-- This is ( almost ) the master branch with a couple added features.
+- This is ( almost ) the master branch with a some added features.
 
 # XML based alternative serialization and deserialization support
 
@@ -42,6 +42,12 @@ It can be used like this:
             ....
             </LastPageFooter>
         </Section>
+		
+# 1D & 2D barcode3 support via zxing
+
+- Add a Barcode tag like this:
+
+	<Barcode Type="QRCode" Code="http://www.google.com" Width="3cm" Height="3cm"/>
         
 # MigraDoc
 MigraDoc Foundation - Creating documents on the fly
