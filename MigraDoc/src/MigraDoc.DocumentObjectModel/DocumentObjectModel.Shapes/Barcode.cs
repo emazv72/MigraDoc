@@ -84,6 +84,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         [DV(Type = typeof(BarcodeType))]
         internal NEnum _type = NEnum.NullValue(typeof(BarcodeType));
 
+        /*
         /// <summary>
         /// Gets or sets a value indicating whether bars shall appear beside the barcode
         /// </summary>
@@ -94,6 +95,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NBool _bearerBars = NBool.NullValue;
+        */
 
         /// <summary>
         /// Gets or sets the a value indicating whether the barcode's code is rendered.
@@ -260,8 +262,10 @@ namespace MigraDoc.DocumentObjectModel.Shapes
 
             if (!_orientation.IsNull)
                 serializer.WriteSimpleAttribute("Orientation", Orientation);
+            /*
             if (!_bearerBars.IsNull)
                 serializer.WriteSimpleAttribute("BearerBars", BearerBars);
+            */
             if (!_text.IsNull)
                 serializer.WriteSimpleAttribute("Text", Text);
             if (!_type.IsNull)
@@ -295,8 +299,10 @@ namespace MigraDoc.DocumentObjectModel.Shapes
 
             if (!_orientation.IsNull)
                 serializer.WriteSimpleAttribute("Orientation", Orientation);
+            /*
             if (!_bearerBars.IsNull)
                 serializer.WriteSimpleAttribute("BearerBars", BearerBars);
+            */
             if (!_text.IsNull)
                 serializer.WriteSimpleAttribute("Text", Text);
             if (!_type.IsNull)

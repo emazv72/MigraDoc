@@ -422,6 +422,16 @@ namespace MigraDoc.DocumentObjectModel
         }
 
         /// <summary>
+        /// Adds a new Barcode.
+        /// </summary>
+        public Barcode AddBarcode()
+        {
+            Barcode barcode = new Barcode();
+            Add(barcode);
+            return barcode;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public override void Add(DocumentObject docObj)
@@ -462,6 +472,8 @@ namespace MigraDoc.DocumentObjectModel
         {
             get { return _meta ?? (_meta = new Meta(typeof(ParagraphElements))); }
         }
+
+
         static Meta _meta;
         #endregion
     }
