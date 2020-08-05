@@ -62,6 +62,8 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         #endregion
 
         #region Properties
+
+        /*
         /// <summary>
         /// Gets or sets the text orientation for the barcode content.
         /// </summary>
@@ -72,6 +74,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV(Type = typeof(TextOrientation))]
         internal NEnum _orientation = NEnum.NullValue(typeof(TextOrientation));
+        */
 
         /// <summary>
         /// Gets or sets the type of the barcode.
@@ -97,6 +100,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         internal NBool _bearerBars = NBool.NullValue;
         */
 
+        /*
         /// <summary>
         /// Gets or sets the a value indicating whether the barcode's code is rendered.
         /// </summary>
@@ -107,6 +111,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NBool _text = NBool.NullValue;
+        */
 
         /// <summary>
         /// Gets or sets code the barcode represents.
@@ -158,6 +163,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         internal NDouble _narrowLineWidth = NDouble.NullValue;
         */
 
+        /*
         /// <summary>
         /// Gets or sets the ScaleWidth of the image.
         /// If the Width is set to, the resulting image width is ScaleWidth * Width.
@@ -169,7 +175,9 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NDouble _scaleWidth = NDouble.NullValue;
+        */
 
+            /*
         /// <summary>
         /// Gets or sets the ScaleHeight of the image.
         /// If the Height is set too, the resulting image height is ScaleHeight * Height.
@@ -181,7 +189,9 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NDouble _scaleHeight = NDouble.NullValue;
+        */
 
+            /*
         /// <summary>
         /// Gets or sets whether the AspectRatio of the image is kept unchanged.
         /// If both Width and Height are set, this property is ignored.
@@ -193,7 +203,9 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NBool _lockAspectRatio = NBool.NullValue;
+        */
 
+        /*
         /// <summary>
         /// Gets or sets the PictureFormat for the image
         /// </summary>
@@ -208,6 +220,7 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal PictureFormat _pictureFormat;
+        */
 
         /// <summary>
         /// Gets or sets a user defined resolution for the image in dots per inch.
@@ -220,29 +233,16 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         [DV]
         internal NDouble _resolution = NDouble.NullValue;
 
-        /*
         /// <summary>
-        /// Gets or sets a the width of the barcode, in pixels.
+        /// Gets or sets whether to render a failure image.
         /// </summary>
-        public int BarcodeWidth
+        public bool RenderOnFailure
         {
-            get { return _barcodeWidth.Value; }
-            set { _barcodeWidth.Value = value; }
+            get { return _renderOnFailure.Value; }
+            set { _renderOnFailure.Value = value; }
         }
         [DV]
-        internal NInt _barcodeWidth = NInt.NullValue;
-
-        /// <summary>
-        /// Gets or sets a the height of the barcode, in pixels.
-        /// </summary>
-        public int BarcodeHeight
-        {
-            get { return _barcodeHeight.Value; }
-            set { _barcodeHeight.Value = value; }
-        }
-        [DV]
-        internal NInt _barcodeHeight = NInt.NullValue;
-        */
+        internal NBool _renderOnFailure = NBool.NullValue;
         #endregion
 
         #region Internal
@@ -260,14 +260,14 @@ namespace MigraDoc.DocumentObjectModel.Shapes
 
             base.Serialize(serializer);
 
+            /*
             if (!_orientation.IsNull)
                 serializer.WriteSimpleAttribute("Orientation", Orientation);
-            /*
             if (!_bearerBars.IsNull)
                 serializer.WriteSimpleAttribute("BearerBars", BearerBars);
-            */
             if (!_text.IsNull)
                 serializer.WriteSimpleAttribute("Text", Text);
+            */
             if (!_type.IsNull)
                 serializer.WriteSimpleAttribute("Type", Type);
 
@@ -297,14 +297,15 @@ namespace MigraDoc.DocumentObjectModel.Shapes
 
             base.Serialize(serializer);
 
+            /*
             if (!_orientation.IsNull)
                 serializer.WriteSimpleAttribute("Orientation", Orientation);
-            /*
             if (!_bearerBars.IsNull)
                 serializer.WriteSimpleAttribute("BearerBars", BearerBars);
-            */
             if (!_text.IsNull)
                 serializer.WriteSimpleAttribute("Text", Text);
+            */
+
             if (!_type.IsNull)
                 serializer.WriteSimpleAttribute("Type", Type);
 
