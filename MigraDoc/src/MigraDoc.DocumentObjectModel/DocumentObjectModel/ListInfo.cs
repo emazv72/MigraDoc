@@ -113,13 +113,17 @@ namespace MigraDoc.DocumentObjectModel
         internal override void Serialize(XmlSerializer serializer)
         {
 
-            if (!_listType.IsNull)
-                serializer.WriteSimpleAttribute("ListInfo.ListType", ListType);
+			serializer.WriteStartElement("ListInfo");
+
+			if (!_listType.IsNull)
+                serializer.WriteSimpleAttribute("ListType", ListType);
             if (!_numberPosition.IsNull)
-                serializer.WriteSimpleAttribute("ListInfo.NumberPosition", NumberPosition);
+                serializer.WriteSimpleAttribute("NumberPosition", NumberPosition);
             if (!_continuePreviousList.IsNull)
-                serializer.WriteSimpleAttribute("ListInfo.ContinuePreviousList", ContinuePreviousList);
-        }
+                serializer.WriteSimpleAttribute("ContinuePreviousList", ContinuePreviousList);
+
+			serializer.WriteEndElement(); // listinfo
+		}
 
         /// <summary>
         /// Returns the meta object of this instance.
