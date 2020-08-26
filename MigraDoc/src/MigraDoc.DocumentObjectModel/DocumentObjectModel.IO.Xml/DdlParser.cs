@@ -538,12 +538,10 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 						switch (XmlSymbol)
 						{
-							// TODO
-							/*
-							 case XmlSymbol.EmptyLine:
-								 elements.AddCharacter(SymbolName.ParaBreak);
-								 ReadText(rootLevel);
-								 break;*/
+							case XmlSymbol.ParaBreak:
+								elements.AddCharacter(SymbolName.ParaBreak);
+								MoveNext(false);
+								break;
 
 							/*
 							case XmlSymbol.Comment:

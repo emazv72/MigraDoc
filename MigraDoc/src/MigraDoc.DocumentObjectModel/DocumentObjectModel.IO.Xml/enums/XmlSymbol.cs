@@ -133,6 +133,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
         NonBreakeableBlank,
         SoftHyphen,
         LineBreak,
+		ParaBreak,
         Space,
         NoSpace,
 

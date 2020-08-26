@@ -197,8 +197,7 @@ namespace MigraDoc.DocumentObjectModel
 				else if ((SymbolName)_symbolName.Value == SymbolName.LineBreak)
 					text = "br";
 				else if ((SymbolName)_symbolName.Value == SymbolName.ParaBreak)
-					//text = "ParagraphBreak";
-					throw new NotImplementedException("ParagraphBreak");
+					text = "pbr";
 				//else if (symbolType == SymbolName.MarginBreak)
 				//  text = "\\marginbreak ";
 
