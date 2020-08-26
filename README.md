@@ -1,3 +1,31 @@
+
+# XML based alternative serialization support
+
+This version add support to an alternative format for serialization based on XML.
+
+It can be used like this:
+
+			MigraDoc.DocumentObjectModel.IO.Xml.DdlWriter.WriteToFile(document, "MigraDoc.xml");
+
+			using (StreamReader sr = File.OpenText("MigraDoc.xml"))
+			{
+				var errors = new MigraDoc.DocumentObjectModel.IO.DdlReaderErrors();
+				var reader = new MigraDoc.DocumentObjectModel.IO.Xml.DdlReader(sr, errors);
+
+				document = reader.ReadDocument();
+
+				using (StreamWriter sw = new StreamWriter("MigraDoc.xml.errors"))
+				{
+					foreach (MigraDoc.DocumentObjectModel.IO.DdlReaderError error in errors)
+					{
+						sw.WriteLine("{0}:{1} {2} {3}", error.SourceLine, error.SourceColumn, error.ErrorLevel, error.ErrorMessage);
+
+					}
+
+				}
+
+			}
+
 # MigraDoc
 MigraDoc Foundation - Creating documents on the fly
 
