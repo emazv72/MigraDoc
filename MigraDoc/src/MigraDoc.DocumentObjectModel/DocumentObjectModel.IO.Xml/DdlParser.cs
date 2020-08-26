@@ -527,8 +527,6 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 		private void ParseFormattedText(ParagraphElements elements)
 		{
-			string text;
-
 			bool loop = true;
 			while (loop)
 			{
@@ -636,20 +634,12 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						break;
 					case XmlNodeType.Text:
 
-						text = GetText(_reader.Value);
-
-						if (text != String.Empty)
-							elements.AddText(text);
-
+						ReadText(elements);
 						MoveNext(false);
 						break;
 					case XmlNodeType.CDATA:
 
-						text = _reader.Value;
-
-						if (text != String.Empty)
-							elements.AddText(text);
-
+						ReadLiteralText(elements);
 						MoveNext(false);
 						break;
 					default:
@@ -657,6 +647,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 				}
 			}
 		}
+
 
 		/// <summary>
 		/// Parses the keywords «\bold», «\italic», and «\underline».
@@ -2530,7 +2521,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 				return value.ToLower() == "true";
 		}
 
-
+		/*
 		private string RemoveLeadingWhiteSpace(string text)
 		{
 			if (text != null)
@@ -2572,14 +2563,15 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			return text;
 		}
+		*/
 
 		/// <summary>
 		/// Extracts paragraph text removing and compressing white spaces
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		private string GetText(string text)
+		/// </summary>		
+		private void ReadText(ParagraphElements elements)
 		{
+
+			String text = _reader.Value;
 
 			StringBuilder token = new StringBuilder();
 			bool whiteSpace = false;
@@ -2607,8 +2599,60 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			}
 
-			return token.ToString().Trim();
+			text = token.ToString().Trim();
+
+			if (text != String.Empty)
+				elements.AddText(text);
+
 		}
 
+		/// <summary>
+		/// Extracts paragraph text without compressing white spaces
+		/// </summary>		
+		private void ReadLiteralText(ParagraphElements elements)
+		{
+
+			String text = _reader.Value;
+
+			StringBuilder token = new StringBuilder();
+			int spaceCount = 0;
+
+			if (text != null)
+			{
+				int idx = 0;
+				while (idx < text.Length)
+				{
+					if (text[idx].Equals(' '))
+					{
+						if (token.Length > 0)
+						{
+							elements.AddText(token.ToString());
+							token.Length = 0;
+						}
+
+						spaceCount++;
+					}
+					else
+					{
+						if (spaceCount > 0)
+						{
+							elements.AddSpace(spaceCount);
+							spaceCount = 0;
+						}
+
+						token.Append(text[idx]);
+					}
+
+					idx++;
+				}
+
+			}
+
+			if (spaceCount > 0)
+				elements.AddSpace(spaceCount);
+
+			if (token.Length > 0)
+				elements.AddText(token.ToString());
+		}
 	}
 }
