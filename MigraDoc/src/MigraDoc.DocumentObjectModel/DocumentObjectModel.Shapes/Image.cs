@@ -158,13 +158,24 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NDouble _resolution = NDouble.NullValue;
-        //#endregion
 
-        #region Internal
-        /// <summary>
-        /// Converts Image into DDL.
-        /// </summary>
-        internal override void Serialize(Serializer serializer)
+		/// <summary>
+		/// Gets or sets whether to render a failure image.
+		/// </summary>
+		public bool RenderOnFailure
+		{
+			get { return _renderOnFailure.Value; }
+			set { _renderOnFailure.Value = value; }
+		}
+		[DV]
+		internal NBool _renderOnFailure = NBool.NullValue;
+		//#endregion
+
+		#region Internal
+		/// <summary>
+		/// Converts Image into DDL.
+		/// </summary>
+		internal override void Serialize(Serializer serializer)
         {
             serializer.WriteLine("\\image(\"" + _name.Value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\")");
 
