@@ -469,6 +469,8 @@ namespace MigraDoc.DocumentObjectModel.Tables
 			if (!_roundedCornerRadius.IsNull)
 				serializer.WriteSimpleAttribute("RoundedCornerRadius", RoundedCornerRadius);
 
+			serializer.BeginAttributes();
+
 			if (!IsNull("Borders"))
                 _borders.Serialize(serializer, null);
 
