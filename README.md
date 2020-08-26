@@ -1,10 +1,10 @@
-- This is ( almost ) the master branch with a some added features.
+# Fork with a some added features.
 
-# XML based alternative serialization and deserialization support
+## XML based serialization and deserialization
 
-This version add support to an alternative format for serialization based on XML. A sample MigraDoc/XML file can be found [here](https://raw.githubusercontent.com/emazv72/MigraDoc-samples/master/samples/xml/MigraDoc.xml) 
+This version adds support to an alternative format for serialization based on XML. A sample MigraDoc/XML file can be found [here](https://raw.githubusercontent.com/emazv72/MigraDoc-samples/master/samples/xml/MigraDoc.xml) 
 
-It can be used like this:
+Example usage:
 
 			MigraDoc.DocumentObjectModel.IO.Xml.DdlWriter.WriteToFile(document, "MigraDoc.xml");
 
@@ -27,9 +27,9 @@ It can be used like this:
 
 			}
             
-# Last page header and footer
+## Last page header and footer on a section
 
-- Add the DifferentLastPageHeaderFooter flag and the corresponding headers and footers
+- Adds the DifferentLastPageHeaderFooter flag and the corresponding headers and footers
 
         <Section>
             <Attributes>
@@ -43,12 +43,12 @@ It can be used like this:
             </LastPageFooter>
         </Section>
 		
-# 1D & 2D barcode3 support via zxing
+## 1D & 2D barcode
 
-- Add a Barcode tag like this:
+- Barcode support via zxing:
 
-	<Barcode Type="QRCode" Code="http://www.google.com" Width="3cm" Height="3cm"/>
-        
+        <Barcode Type="QRCode" Code="http://www.google.com" Width="3cm" Height="3cm" Resolution="200"/>
+
 # MigraDoc
 MigraDoc Foundation - Creating documents on the fly
 
