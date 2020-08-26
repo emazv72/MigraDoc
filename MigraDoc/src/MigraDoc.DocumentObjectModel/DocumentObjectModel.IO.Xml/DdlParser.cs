@@ -79,7 +79,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 		}
 
 		/// <summary>
-		/// Parses the keyword «<document>».
+		/// Parses the keyword «document».
 		/// </summary>
 		internal Document ParseDocument(Document document)
 		{
@@ -383,47 +383,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			}
 		}
 
-		// TODO
-
-		/// <summary>
-		/// Determines whether the next text is paragraph content or document element.
-		/// </summary>
-		/*private bool IsParagraphContent()
-		{
-			
-            if (MoveToParagraphContent())
-            {
-                if (_scanner.Char == Chars.BackSlash)
-                {
-                    XmlSymbol symbol = _scanner.PeekKeyword();
-                    switch (symbol)
-                    {
-                        case XmlSymbol.Bold:
-                        case XmlSymbol.Italic:
-                        case XmlSymbol.Underline:
-                        case XmlSymbol.Field:
-                        case XmlSymbol.Font:
-                        case XmlSymbol.FontColor:
-                        case XmlSymbol.FontSize:
-                        case XmlSymbol.Footnote:
-                        case XmlSymbol.Hyperlink:
-                        case XmlSymbol.Symbol:
-                        case XmlSymbol.Chr:
-                        case XmlSymbol.Tab:
-                        case XmlSymbol.LineBreak:
-                        case XmlSymbol.Space:
-                        case XmlSymbol.SoftHyphen:
-                            return true;
-                    }
-                    return false;
-                }
-                return true;
-            }
-            return false;
-            
-
-
-		}*/
+		
 
 		/// <summary>
 		/// Parses the document elements of a «\paragraph», «\cell» or comparable.
@@ -701,7 +661,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			AssertSymbol(symbol);
 
 			if (IsStartElement())
-			{				
+			{
 				ParseFormattedText(formattedText.Elements);
 
 				AssertSymbol(symbol, true);
@@ -722,7 +682,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			ParseAttributes(formattedText, null, false);
 
 			if (hasContent)
-			{				
+			{
 				ParseFormattedText(formattedText.Elements);
 
 				AssertSymbol(XmlSymbol.Font, true);
@@ -730,7 +690,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			MoveNext(false);
 		}
-		
+
 		/// <summary>
 		/// Parses the keyword «\fontsize».
 		/// </summary>
@@ -935,7 +895,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			if (count != null)
 				space.Count = Int32.Parse(count);
 
-			MoveNext();
+			MoveNext(false);
 		}
 
 
