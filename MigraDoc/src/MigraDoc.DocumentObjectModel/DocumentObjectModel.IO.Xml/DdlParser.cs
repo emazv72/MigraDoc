@@ -41,6 +41,7 @@ using System.Xml;
 using System.Collections.Generic;
 using AttrDictionary = System.Collections.Generic.Dictionary<string, string>;
 using AttributePair = System.Collections.Generic.KeyValuePair<string, string>;
+using System.Text;
 
 namespace MigraDoc.DocumentObjectModel.IO.Xml
 {
@@ -390,7 +391,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			}
 		}
 
-		
+
 
 		/// <summary>
 		/// Parses the document elements of a «\paragraph», «\cell» or comparable.
@@ -637,12 +638,12 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						break;
 					case XmlNodeType.Text:
 
-						text = RemoveTrailingWhiteSpace(RemoveLeadingWhiteSpace(_reader.Value));
+						text = GetText(_reader.Value);
 
 						if (text != String.Empty)
 							elements.AddText(text);
 
-						MoveNext();
+						MoveNext(false);
 						break;
 					case XmlNodeType.CDATA:
 
@@ -651,7 +652,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						if (text != String.Empty)
 							elements.AddText(text);
 
-						MoveNext();
+						MoveNext(false);
 						break;
 					default:
 						break;
@@ -2573,5 +2574,43 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			return text;
 		}
+
+		/// <summary>
+		/// Extracts paragraph text removing and compressing white spaces
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		private string GetText(string text)
+		{
+
+			StringBuilder token = new StringBuilder();
+			bool whiteSpace = false;
+
+			if (text != null)
+			{
+				int idx = 0;
+				while (idx < text.Length)
+				{
+					if (Char.IsWhiteSpace(text[idx]))
+					{
+						if (!whiteSpace)
+							token.Append(' ');
+
+						whiteSpace = true;
+					}
+					else
+					{
+						token.Append(text[idx]);
+						whiteSpace = false;
+					}
+
+					idx++;
+				}
+
+			}
+
+			return token.ToString().TrimEnd();
+		}
+
 	}
 }
