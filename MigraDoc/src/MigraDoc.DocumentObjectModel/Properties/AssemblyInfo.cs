@@ -33,11 +33,11 @@ using MigraDoc.DocumentObjectModel;
 [assembly: AssemblyTitle(VersionInfo.Title)]
 [assembly: AssemblyDescription(VersionInfo.Description)]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(VersionInfo.Company + "(xmlddl/qrcode build)")]
+[assembly: AssemblyCompany(VersionInfo.Company )]
 #if DEBUG
 [assembly: AssemblyProduct(VersionInfo.Product + " (Debug Build)")]
 #else
-  [assembly: AssemblyProduct(VersionInfo.Product)]
+  [assembly: AssemblyProduct(VersionInfo.Product +"(xmlddl/barcode build 05/08/2020)")]
 #endif
 [assembly: AssemblyCopyright(VersionInfo.Copyright)]
 [assembly: AssemblyTrademark(VersionInfo.Trademark)]

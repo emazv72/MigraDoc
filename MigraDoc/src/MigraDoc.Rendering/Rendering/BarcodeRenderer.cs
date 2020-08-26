@@ -66,22 +66,23 @@ namespace MigraDoc.Rendering
         internal override void Format(Area area, FormatInfo previousFormatInfo)
         {
 
-            //_imageFilePath = _image.GetFilePath(_documentRenderer.WorkingDirectory);
+            ImageFormatInfo formatInfo = (ImageFormatInfo)_renderInfo.FormatInfo;
 
-            // The Image is stored in the string if path starts with "base64:", otherwise we check whether the file exists.
-            /*if (!_imageFilePath.StartsWith("base64:") &&
-                !XImage.ExistsFile(_imageFilePath))
-            {
-                _failure = ImageFailure.FileNotFound;
-                Debug.WriteLine(Messages2.ImageNotFound(_image.Name), "warning");
-            }*/
+            if (!_barcode._height.IsNull)
+                formatInfo.Height = _barcode.Height.Point;
+            else
+                formatInfo.Height = XUnit.FromCentimeter(2.5);
 
-            //ImageFormatInfo formatInfo = (ImageFormatInfo)_renderInfo.FormatInfo;
+            if (!_barcode._width.IsNull)
+                formatInfo.Width = _barcode.Width.Point;
+            else
+                formatInfo.Width = XUnit.FromCentimeter(2.5);
 
-            // formatInfo.Failure = _failure;
-            // formatInfo.ImagePath = _imageFilePath;
+            if (!_barcode._resolution.IsNull)
+                formatInfo.Resolution = _barcode.Resolution;
+            else
+                formatInfo.Resolution = 72;
 
-            CalculateImageDimensions();
             base.Format(area, previousFormatInfo);
 
         }
@@ -118,14 +119,13 @@ namespace MigraDoc.Rendering
                 try
                 {
                     XRect srcRect = new XRect(formatInfo.CropX, formatInfo.CropY, formatInfo.CropWidth, formatInfo.CropHeight);
-                    //xImage = XImage.FromFile(formatInfo.ImagePath);
-                    xImage = CreateXImage(/*formatInfo.ImagePath*/);
+                    xImage = CreateBarcode();
                     _gfx.DrawImage(xImage, destRect, srcRect, XGraphicsUnit.Point); //Pixel.
                 }
                 catch (Exception)
                 {
-                    //if (_image._renderOnFailure.IsNull || _image._renderOnFailure.Value)
-                    //  RenderFailureImage(destRect);
+                    if (_barcode._renderOnFailure.IsNull || _barcode._renderOnFailure.Value)
+                        RenderFailureImage(destRect);
                 }
                 finally
                 {
@@ -142,193 +142,28 @@ namespace MigraDoc.Rendering
             RenderLine();
         }
 
-        private void CalculateImageDimensions()
+        void RenderFailureImage(XRect destRect)
         {
-            ImageFormatInfo formatInfo = (ImageFormatInfo)_renderInfo.FormatInfo;
+            _gfx.DrawRectangle(XBrushes.LightGray, destRect);
+            string failureString;
+            ImageFormatInfo formatInfo = (ImageFormatInfo)RenderInfo.FormatInfo;
 
-            if (formatInfo.Failure == ImageFailure.None)
-            {
-                XImage xImage = null;
+            failureString = Messages2.DisplayInvalidImageType;
 
-                try
-                {
-                    xImage = CreateXImage();
-
-                }
-                catch (InvalidOperationException ex)
-                {
-                    Debug.WriteLine(Messages2.InvalidImageType(ex.Message));
-                    formatInfo.Failure = ImageFailure.InvalidType;
-                }
-
-                if (formatInfo.Failure == ImageFailure.None)
-                {
-                    try
-                    {
-                        XUnit usrWidth = _barcode.Width.Point;
-                        XUnit usrHeight = _barcode.Height.Point;
-                        bool usrWidthSet = !_barcode._width.IsNull;
-                        bool usrHeightSet = !_barcode._height.IsNull;
-
-                        XUnit resultWidth = usrWidth;
-                        XUnit resultHeight = usrHeight;
-
-                        Debug.Assert(xImage != null);
-                        double xPixels = xImage.PixelWidth;
-                        bool usrResolutionSet = !_barcode._resolution.IsNull;
-
-                        double horzRes = usrResolutionSet ? _barcode.Resolution : xImage.HorizontalResolution;
-                        double vertRes = usrResolutionSet ? _barcode.Resolution : xImage.VerticalResolution;
-
-                        // ReSharper disable CompareOfFloatsByEqualityOperator
-                        if (horzRes == 0 && vertRes == 0)
-                        {
-                            horzRes = 72;
-                            vertRes = 72;
-                        }
-                        else if (horzRes == 0)
-                        {
-                            Debug.Assert(false, "How can this be?");
-                            horzRes = 72;
-                        }
-                        else if (vertRes == 0)
-                        {
-                            Debug.Assert(false, "How can this be?");
-                            vertRes = 72;
-                        }
-                        // ReSharper restore CompareOfFloatsByEqualityOperator
-
-                        XUnit inherentWidth = XUnit.FromInch(xPixels / horzRes);
-                        double yPixels = xImage.PixelHeight;
-                        XUnit inherentHeight = XUnit.FromInch(yPixels / vertRes);
-
-                        //bool lockRatio = _image.IsNull("LockAspectRatio") ? true : _image.LockAspectRatio;
-                        bool lockRatio = _barcode._lockAspectRatio.IsNull || _barcode.LockAspectRatio;
-
-                        double scaleHeight = _barcode.ScaleHeight;
-                        double scaleWidth = _barcode.ScaleWidth;
-                        //bool scaleHeightSet = !_image.IsNull("ScaleHeight");
-                        //bool scaleWidthSet = !_image.IsNull("ScaleWidth");
-                        bool scaleHeightSet = !_barcode._scaleHeight.IsNull;
-                        bool scaleWidthSet = !_barcode._scaleWidth.IsNull;
-
-                        if (lockRatio && !(scaleHeightSet && scaleWidthSet))
-                        {
-                            if (usrWidthSet && !usrHeightSet)
-                            {
-                                resultHeight = inherentHeight / inherentWidth * usrWidth;
-                            }
-                            else if (usrHeightSet && !usrWidthSet)
-                            {
-                                resultWidth = inherentWidth / inherentHeight * usrHeight;
-                            }
-                            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                            else if (!usrHeightSet && !usrWidthSet)
-                            {
-                                resultHeight = inherentHeight;
-                                resultWidth = inherentWidth;
-                            }
-
-                            if (scaleHeightSet)
-                            {
-                                resultHeight = resultHeight * scaleHeight;
-                                resultWidth = resultWidth * scaleHeight;
-                            }
-                            if (scaleWidthSet)
-                            {
-                                resultHeight = resultHeight * scaleWidth;
-                                resultWidth = resultWidth * scaleWidth;
-                            }
-                        }
-                        else
-                        {
-                            if (!usrHeightSet)
-                                resultHeight = inherentHeight;
-
-                            if (!usrWidthSet)
-                                resultWidth = inherentWidth;
-
-                            if (scaleHeightSet)
-                                resultHeight = resultHeight * scaleHeight;
-                            if (scaleWidthSet)
-                                resultWidth = resultWidth * scaleWidth;
-                        }
-
-                        formatInfo.CropWidth = (int)xPixels;
-                        formatInfo.CropHeight = (int)yPixels;
-                        if (_barcode._pictureFormat != null && !_barcode._pictureFormat.IsNull())
-                        {
-                            PictureFormat picFormat = _barcode.PictureFormat;
-                            //Cropping in pixels.
-                            XUnit cropLeft = picFormat.CropLeft.Point;
-                            XUnit cropRight = picFormat.CropRight.Point;
-                            XUnit cropTop = picFormat.CropTop.Point;
-                            XUnit cropBottom = picFormat.CropBottom.Point;
-                            formatInfo.CropX = (int)(horzRes * cropLeft.Inch);
-                            formatInfo.CropY = (int)(vertRes * cropTop.Inch);
-                            formatInfo.CropWidth -= (int)(horzRes * ((XUnit)(cropLeft + cropRight)).Inch);
-                            formatInfo.CropHeight -= (int)(vertRes * ((XUnit)(cropTop + cropBottom)).Inch);
-
-                            //Scaled cropping of the height and width.
-                            double xScale = resultWidth / inherentWidth;
-                            double yScale = resultHeight / inherentHeight;
-
-                            cropLeft = xScale * cropLeft;
-                            cropRight = xScale * cropRight;
-                            cropTop = yScale * cropTop;
-                            cropBottom = yScale * cropBottom;
-
-                            resultHeight = resultHeight - cropTop - cropBottom;
-                            resultWidth = resultWidth - cropLeft - cropRight;
-                        }
-                        if (resultHeight <= 0 || resultWidth <= 0)
-                        {
-                            formatInfo.Width = XUnit.FromCentimeter(2.5);
-                            formatInfo.Height = XUnit.FromCentimeter(2.5);
-                            Debug.WriteLine(Messages2.EmptyImageSize);
-                            //_failure = ImageFailure.EmptySize;
-                        }
-                        else
-                        {
-                            formatInfo.Width = resultWidth;
-                            formatInfo.Height = resultHeight;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(Messages2.ImageNotReadable(_barcode.Code, ex.Message));
-                        formatInfo.Failure = ImageFailure.NotRead;
-                    }
-                    finally
-                    {
-                        if (xImage != null)
-                            xImage.Dispose();
-                    }
-                }
-            }
-            if (formatInfo.Failure != ImageFailure.None)
-            {
-                if (!_barcode._width.IsNull)
-                    formatInfo.Width = _barcode.Width.Point;
-                else
-                    formatInfo.Width = XUnit.FromCentimeter(2.5);
-
-                if (!_barcode._height.IsNull)
-                    formatInfo.Height = _barcode.Height.Point;
-                else
-                    formatInfo.Height = XUnit.FromCentimeter(2.5);
-            }
+            // Create stub font
+            XFont font = new XFont("Courier New", 8);
+            _gfx.DrawString(failureString, font, XBrushes.Red, destRect, XStringFormats.Center);
         }
 
-        XImage CreateXImage()
+
+        XImage CreateBarcode()
         {
 
             XImage image = null;
 
-#if CORE_WITH_GDI || GDI
+            ImageFormatInfo formatInfo = (ImageFormatInfo)_renderInfo.FormatInfo;
 
-            if (String.IsNullOrEmpty(_barcode.Code))
-                throw new ArgumentNullException("Code");
+#if CORE_WITH_GDI || GDI
 
             BarcodeFormat format = BarcodeFormat.All_1D;
 
@@ -350,12 +185,13 @@ namespace MigraDoc.Rendering
                     break;
             }
 
+            if (String.IsNullOrEmpty(_barcode.Code))
+                throw new ArgumentNullException("Code");
+
             var options = new EncodingOptions();
 
-            // hack
-            const float resolution = 200;
-            int horzPixels = (int)(_barcode.Width.Inch * resolution);
-            int vertPixels = (int)(_barcode.Height.Inch * resolution);
+            int horzPixels = (int)(formatInfo.Width.Inch * formatInfo.Resolution);
+            int vertPixels = (int)(formatInfo.Height.Inch * formatInfo.Resolution);
 
             options.Width = horzPixels;
             options.Height = vertPixels;
@@ -370,7 +206,7 @@ namespace MigraDoc.Rendering
 
             string fileName = Path.GetTempFileName();
 
-            bmp.SetResolution(resolution, resolution);
+            bmp.SetResolution((float)formatInfo.Resolution, (float)formatInfo.Resolution);
             bmp.Save(fileName, ImageFormat.Png);
 
             image = XImage.FromFile(fileName);
@@ -379,7 +215,6 @@ namespace MigraDoc.Rendering
             if (File.Exists(fileName))
                 File.Delete(fileName);
                 */
-            
 #endif
             return image;
 

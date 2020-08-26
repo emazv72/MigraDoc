@@ -43,6 +43,7 @@ namespace MigraDoc.Rendering
         internal int CropHeight;
         internal XUnit Width;
         internal XUnit Height;
+        internal double Resolution;
 
         internal ImageFailure Failure;
         internal string ImagePath;
