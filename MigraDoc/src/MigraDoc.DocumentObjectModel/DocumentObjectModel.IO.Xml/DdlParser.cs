@@ -2609,7 +2609,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 			}
 
-			return token.ToString().TrimEnd();
+			return token.ToString().Trim();
 		}
 
 	}
