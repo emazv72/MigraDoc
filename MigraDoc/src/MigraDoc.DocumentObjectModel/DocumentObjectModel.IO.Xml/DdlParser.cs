@@ -434,7 +434,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						break;
 
 					case XmlSymbol.Image:
-						ParseImage(elements.AddImage(""), false);
+						ParseImage(elements.AddImage("") /*, false */);
 						break;
 
 					case XmlSymbol.Chart:
@@ -442,7 +442,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 						break;
 
 					case XmlSymbol.Barcode:
-						ParseBarcode(elements);
+						ParseBarcode(elements.AddBarcode());
 						break;
 
 					default:
@@ -560,7 +560,11 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 								MoveNext(false);
 								break;
 
-							case XmlSymbol.Bold:
+                            case XmlSymbol.Barcode:
+                                ParseBarcode(elements.AddBarcode());
+                                break;
+
+                            case XmlSymbol.Bold:
 								ParseBoldItalicEtc(elements.AddFormattedText(TextFormat.Bold), XmlSymbol.Bold);
 								break;
 
@@ -589,8 +593,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 								break;
 
 							case XmlSymbol.Image:
-								ParseImage(elements.AddImage(""), true);
-
+								ParseImage(elements.AddImage("")/*, true*/);
 								break;
 
 							case XmlSymbol.Field:
@@ -1074,7 +1077,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 		/// <summary>
 		/// Parses the keyword «\image».
 		/// </summary>
-		private void ParseImage(Image image, bool paragraphContent)
+		private void ParseImage(Image image /*, bool paragraphContent*/)
 		{
 			// Future syntax by example
 			//   \image("Name")
@@ -1133,7 +1136,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			}
 		}
 
-		private void ParseBarcode(DocumentElements elements)
+		private void ParseBarcode(/*DocumentElements elements*/ Barcode barcode)
 		{
 			// Syntax:
 			// 1.  \barcode(Code)
@@ -1145,7 +1148,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 			{
 				AssertSymbol(XmlSymbol.Barcode);
 
-				Barcode barcode = elements.AddBarcode();
+				//Barcode barcode = elements.AddBarcode();
 
 				ParseAttributes(barcode);
 
@@ -1324,7 +1327,7 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
 
 					case XmlSymbol.Image:
 						Image image = new Image();
-						ParseImage(image, false);
+						ParseImage(image/*, false */);
 						area.Elements.Add(image);
 						break;
 
