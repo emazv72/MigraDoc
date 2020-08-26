@@ -144,10 +144,25 @@ namespace MigraDoc.DocumentObjectModel
         [DV]
         internal HeaderFooter _firstPage;
 
-        /// <summary>
-        /// Gets or sets the primary HeaderFooter of the HeadersFooters object.
-        /// </summary>
-        public HeaderFooter Primary
+		/// <summary>
+		/// Gets or sets the last page HeaderFooter of the HeadersFooters object.
+		/// </summary>
+		public HeaderFooter LastPage
+		{
+			get { return _lastPage ?? (_lastPage = new HeaderFooter(this)); }
+			set
+			{
+				SetParent(value);
+				_lastPage = value;
+			}
+		}
+		[DV]
+		internal HeaderFooter _lastPage;
+
+		/// <summary>
+		/// Gets or sets the primary HeaderFooter of the HeadersFooters object.
+		/// </summary>
+		public HeaderFooter Primary
         {
             get { return _primary ?? (_primary = new HeaderFooter(this)); }
             set
@@ -169,9 +184,10 @@ namespace MigraDoc.DocumentObjectModel
             bool hasPrimary = HasHeaderFooter(HeaderFooterIndex.Primary);
             bool hasEvenPage = HasHeaderFooter(HeaderFooterIndex.EvenPage);
             bool hasFirstPage = HasHeaderFooter(HeaderFooterIndex.FirstPage);
+			bool hasLastPage = HasHeaderFooter(HeaderFooterIndex.LastPage);
 
-            // \primary...
-            if (hasPrimary)
+			// \primary...
+			if (hasPrimary)
                 Primary.Serialize(serializer, "primary");
 
             // \even... 
@@ -181,16 +197,21 @@ namespace MigraDoc.DocumentObjectModel
             // \firstpage...
             if (hasFirstPage)
                 FirstPage.Serialize(serializer, "firstpage");
-        }
+
+			// \lastpage...
+			if (hasLastPage)
+				LastPage.Serialize(serializer, "lastpage");
+		}
 
         internal override void Serialize(XmlSerializer serializer)
         {
             bool hasPrimary = HasHeaderFooter(HeaderFooterIndex.Primary);
             bool hasEvenPage = HasHeaderFooter(HeaderFooterIndex.EvenPage);
             bool hasFirstPage = HasHeaderFooter(HeaderFooterIndex.FirstPage);
+			bool hasLastPage = HasHeaderFooter(HeaderFooterIndex.LastPage);
 
-            // \primary...
-            if (hasPrimary)
+			// \primary...
+			if (hasPrimary)
                 Primary.Serialize(serializer, "Primary");
 
             // \even... 
@@ -200,7 +221,10 @@ namespace MigraDoc.DocumentObjectModel
             // \firstpage...
             if (hasFirstPage)
                 FirstPage.Serialize(serializer, "Firstpage");
-        }
+
+			if (hasLastPage)
+				LastPage.Serialize(serializer, "Lastpage");
+		}
 
         /// <summary>
         /// Allows the visitor object to visit the document object and its child objects.
@@ -217,7 +241,9 @@ namespace MigraDoc.DocumentObjectModel
                     ((IVisitable)_evenPage).AcceptVisitor(visitor, true);
                 if (HasHeaderFooter(HeaderFooterIndex.FirstPage))
                     ((IVisitable)_firstPage).AcceptVisitor(visitor, true);
-            }
+				if (HasHeaderFooter(HeaderFooterIndex.LastPage))
+					((IVisitable)_lastPage).AcceptVisitor(visitor, true);
+			}
         }
 
         /// <summary>

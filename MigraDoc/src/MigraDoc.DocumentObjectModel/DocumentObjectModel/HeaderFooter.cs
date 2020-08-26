@@ -205,10 +205,18 @@ namespace MigraDoc.DocumentObjectModel
             get { return ((HeadersFooters)_parent)._firstPage == this; }
         }
 
-        /// <summary>
-        /// Returns true if this is an even page header or footer, false otherwise.
-        /// </summary>
-        public bool IsEvenPage
+		/// <summary>
+		/// Returns true if this is a last page header or footer, false otherwise.
+		/// </summary>
+		public bool IsLastPage
+		{
+			get { return ((HeadersFooters)_parent)._lastPage == this; }
+		}
+
+		/// <summary>
+		/// Returns true if this is an even page header or footer, false otherwise.
+		/// </summary>
+		public bool IsEvenPage
         {
             get { return ((HeadersFooters)_parent)._evenPage == this; }
         }
@@ -295,7 +303,9 @@ namespace MigraDoc.DocumentObjectModel
                 Serialize(serializer, "evenpage");
             else if (headersfooters.FirstPage == this)
                 Serialize(serializer, "firstpage");
-        }     
+			else if (headersfooters.LastPage == this)
+				Serialize(serializer, "lastpage");
+		}     
 
         /// <summary>
         /// Converts HeaderFooter into DDL.
@@ -325,7 +335,9 @@ namespace MigraDoc.DocumentObjectModel
                 Serialize(serializer, "Evenpage");
             else if (headersfooters.FirstPage == this)
                 Serialize(serializer, "Firstpage");
-        }
+			else if (headersfooters.LastPage == this)
+				Serialize(serializer, "Lastpage");
+		}
 
         internal void Serialize(XmlSerializer serializer, string prefix)
         {

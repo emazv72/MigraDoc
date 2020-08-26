@@ -74,8 +74,9 @@ namespace MigraDoc.RtfRendering
         private List<string> GetHeaderFooterControls()
         {
             List<string> retColl = new List<string>();
-            bool differentFirst = (bool)_pageSetup.GetValue("DifferentFirstPageHeaderFooter", GV.GetNull);
-            bool oddEven = (bool)_pageSetup.GetValue("OddAndEvenPagesHeaderFooter", GV.GetNull);
+            bool differentFirst = (bool)_pageSetup.GetValue("DifferentFirstPageHeaderFooter", GV.GetNull); 
+			// TODO support DifferentLastPageHeaderFooter
+			bool oddEven = (bool)_pageSetup.GetValue("OddAndEvenPagesHeaderFooter", GV.GetNull);
             string ctrlBase = _headerFooter.IsHeader ? "header" : "footer";
             if (_renderAs == HeaderFooterIndex.FirstPage)
             {

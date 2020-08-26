@@ -276,11 +276,23 @@ namespace MigraDoc.DocumentObjectModel
         [DV]
         internal NBool _differentFirstPageHeaderFooter = NBool.NullValue;
 
-        /// <summary>
-        /// Gets or sets the distance between the header and the page top
-        /// of the pages in the section.
-        /// </summary>
-        public Unit HeaderDistance
+		/// <summary>
+		/// Gets or sets a value which define whether the section has a different
+		/// last page header and footer.
+		/// </summary>
+		public bool DifferentLastPageHeaderFooter
+		{
+			get { return _differentLastPageHeaderFooter.Value; }
+			set { _differentLastPageHeaderFooter.Value = value; }
+		}
+		[DV]
+		internal NBool _differentLastPageHeaderFooter = NBool.NullValue;
+
+		/// <summary>
+		/// Gets or sets the distance between the header and the page top
+		/// of the pages in the section.
+		/// </summary>
+		public Unit HeaderDistance
         {
             get { return _headerDistance; }
             set { _headerDistance = value; }
@@ -386,7 +398,8 @@ namespace MigraDoc.DocumentObjectModel
                     _defaultPageSetup.FooterDistance = "1.25cm";
                     _defaultPageSetup.OddAndEvenPagesHeaderFooter = false;
                     _defaultPageSetup.DifferentFirstPageHeaderFooter = false;
-                    _defaultPageSetup.MirrorMargins = false;
+					_defaultPageSetup.DifferentLastPageHeaderFooter = false;
+					_defaultPageSetup.MirrorMargins = false;
                     _defaultPageSetup.HorizontalPageBreak = false;
                 }
                 return _defaultPageSetup;
@@ -436,7 +449,10 @@ namespace MigraDoc.DocumentObjectModel
             if (!_differentFirstPageHeaderFooter.IsNull)
                 serializer.WriteSimpleAttribute("DifferentFirstPageHeaderFooter", DifferentFirstPageHeaderFooter);
 
-            if (!_sectionStart.IsNull)
+			if (!_differentLastPageHeaderFooter.IsNull)
+				serializer.WriteSimpleAttribute("DifferentLastPageHeaderFooter", DifferentLastPageHeaderFooter);
+
+			if (!_sectionStart.IsNull)
                 serializer.WriteSimpleAttribute("SectionStart", SectionStart);
 
             if (!_pageFormat.IsNull)
@@ -495,7 +511,10 @@ namespace MigraDoc.DocumentObjectModel
             if (!_differentFirstPageHeaderFooter.IsNull)
                 serializer.WriteSimpleAttribute("DifferentFirstPageHeaderFooter", DifferentFirstPageHeaderFooter);
 
-            if (!_sectionStart.IsNull)
+			if (!_differentLastPageHeaderFooter.IsNull)
+				serializer.WriteSimpleAttribute("DifferentLastPageHeaderFooter", DifferentLastPageHeaderFooter);
+
+			if (!_sectionStart.IsNull)
                 serializer.WriteSimpleAttribute("SectionStart", SectionStart);
 
             if (!_pageFormat.IsNull)

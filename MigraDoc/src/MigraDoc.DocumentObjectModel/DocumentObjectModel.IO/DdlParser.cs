@@ -345,7 +345,8 @@ namespace MigraDoc.DocumentObjectModel.IO
                     headersFooters.Primary = headerFooter.Clone();
                     headersFooters.EvenPage = headerFooter.Clone();
                     headersFooters.FirstPage = headerFooter.Clone();
-                }
+					headersFooters.LastPage = headerFooter.Clone();
+				}
                 else
                 {
                     switch (hdrFtrSym)
@@ -364,7 +365,12 @@ namespace MigraDoc.DocumentObjectModel.IO
                         case Symbol.FirstPageFooter:
                             headersFooters.FirstPage = headerFooter;
                             break;
-                    }
+
+						case Symbol.LastPageHeader:
+						case Symbol.LastPageFooter:
+							headersFooters.LastPage = headerFooter;
+							break;
+					}
                 }
             }
             catch (DdlParserException ex)

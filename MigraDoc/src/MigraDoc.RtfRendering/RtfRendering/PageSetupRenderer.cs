@@ -50,7 +50,8 @@ namespace MigraDoc.RtfRendering
         {
             _useEffectiveValue = true;
             object obj = GetValueAsIntended("DifferentFirstPageHeaderFooter");
-            if (obj != null && (bool)obj)
+			// TODO DifferentLastPageHeaderFooter
+			if (obj != null && (bool)obj)
                 _rtfWriter.WriteControl("titlepg");
 
             obj = GetValueAsIntended("Orientation");

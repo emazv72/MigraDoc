@@ -24,8 +24,10 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
             EnumToName.Add(XmlSymbol.PrimaryHeader, "primaryheader");
             EnumToName.Add(XmlSymbol.PrimaryFooter, "primaryfooter");
             EnumToName.Add(XmlSymbol.FirstPageHeader, "firstpageheader");
-            EnumToName.Add(XmlSymbol.FirstPageFooter, "firstpagefooter");
-            EnumToName.Add(XmlSymbol.EvenPageHeader, "evenpageheader");
+			EnumToName.Add(XmlSymbol.LastPageHeader, "lastpageheader");
+			EnumToName.Add(XmlSymbol.FirstPageFooter, "firstpagefooter");
+			EnumToName.Add(XmlSymbol.LastPageFooter, "lastpagefooter");
+			EnumToName.Add(XmlSymbol.EvenPageHeader, "evenpageheader");
             EnumToName.Add(XmlSymbol.EvenPageFooter, "evenpagefooter");
             EnumToName.Add(XmlSymbol.Table, "table");
             EnumToName.Add(XmlSymbol.Columns, "columns");
@@ -127,8 +129,10 @@ namespace MigraDoc.DocumentObjectModel.IO.Xml
             NameToEnum.Add("primaryheader", XmlSymbol.PrimaryHeader);
             NameToEnum.Add("primaryfooter", XmlSymbol.PrimaryFooter);
             NameToEnum.Add("firstpageheader", XmlSymbol.FirstPageHeader);
-            NameToEnum.Add("firstpagefooter", XmlSymbol.FirstPageFooter);
-            NameToEnum.Add("evenpageheader", XmlSymbol.EvenPageHeader);
+			NameToEnum.Add("lastpageheader", XmlSymbol.LastPageHeader);
+			NameToEnum.Add("firstpagefooter", XmlSymbol.FirstPageFooter);
+			NameToEnum.Add("lastpagefooter", XmlSymbol.LastPageFooter);
+			NameToEnum.Add("evenpageheader", XmlSymbol.EvenPageHeader);
             NameToEnum.Add("evenpagefooter", XmlSymbol.EvenPageFooter);
             NameToEnum.Add("table", XmlSymbol.Table);
             NameToEnum.Add("columns", XmlSymbol.Columns);
