@@ -1,8 +1,9 @@
-# Fork with a some added features.
+# Fork with some new features.
 
 ## XML based serialization and deserialization
 
-This version adds support to an alternative format for serialization based on XML. A sample MigraDoc/XML file can be found [here](https://raw.githubusercontent.com/emazv72/MigraDoc-samples/master/samples/xml/MigraDoc.xml) 
+This version adds support for an alternative serialization format based on XML.
+A sample MigraDoc/XML file can be found [here](https://raw.githubusercontent.com/emazv72/MigraDoc-samples/master/samples/xml/MigraDoc.xml) 
 
 Example usage:
 
@@ -27,9 +28,9 @@ Example usage:
 
 			}
             
-## Last page header and footer on a section
+## Last page header and footer in a section
 
-- Adds the DifferentLastPageHeaderFooter flag and the corresponding headers and footers
+- Adds the DifferentLastPageHeaderFooter flag and the corresponding headers and footers:
 
         <Section>
             <Attributes>
