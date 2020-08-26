@@ -118,6 +118,9 @@
       <Project>{cfdb7d46-ea8d-47de-b10a-9e755a1b48ba}</Project>
       <Name>PdfSharp.Charting-gdi</Name>
     </ProjectReference>
+    <Reference Include="zxing, Version=0.16.5.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.5\lib\net20\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\MigraDoc.Rendering\Properties\AssemblyInfo.cs">
@@ -161,6 +164,9 @@
     </Compile>
     <Compile Include="..\MigraDoc.Rendering\Rendering\Area.cs">
       <Link>Rendering\Area.cs</Link>
+    </Compile>
+    <Compile Include="..\MigraDoc.Rendering\Rendering\BarcodeRenderer.cs">
+      <Link>Rendering\BarcodeRenderer.cs</Link>
     </Compile>
     <Compile Include="..\MigraDoc.Rendering\Rendering\BordersRenderer.cs">
       <Link>Rendering\BordersRenderer.cs</Link>
@@ -345,6 +351,7 @@
     <None Include="..\MigraDoc.Rendering\StrongnameKey.snk">
       <Link>StrongnameKey.snk</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering.Printing\" />

@@ -120,28 +120,31 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         /// <summary>
         /// ???
         /// </summary>
-        public double LineRatio
+        /*public double LineRatio
         {
             get { return _lineRatio.Value; }
             set { _lineRatio.Value = value; }
         }
         [DV]
         internal NDouble _lineRatio = NDouble.NullValue;
+        */
 
         /// <summary>
         /// ???
         /// </summary>
-        public double LineHeight
+        /*public double LineHeight
         {
             get { return _lineHeight.Value; }
             set { _lineHeight.Value = value; }
         }
         [DV]
         internal NDouble _lineHeight = NDouble.NullValue;
+        */
 
         /// <summary>
         /// ???
         /// </summary>
+        /*
         public double NarrowLineWidth
         {
             get { return _narrowLineWidth.Value; }
@@ -149,6 +152,93 @@ namespace MigraDoc.DocumentObjectModel.Shapes
         }
         [DV]
         internal NDouble _narrowLineWidth = NDouble.NullValue;
+        */
+
+        /// <summary>
+        /// Gets or sets the ScaleWidth of the image.
+        /// If the Width is set to, the resulting image width is ScaleWidth * Width.
+        /// </summary>
+        public double ScaleWidth
+        {
+            get { return _scaleWidth.Value; }
+            set { _scaleWidth.Value = value; }
+        }
+        [DV]
+        internal NDouble _scaleWidth = NDouble.NullValue;
+
+        /// <summary>
+        /// Gets or sets the ScaleHeight of the image.
+        /// If the Height is set too, the resulting image height is ScaleHeight * Height.
+        /// </summary>
+        public double ScaleHeight
+        {
+            get { return _scaleHeight.Value; }
+            set { _scaleHeight.Value = value; }
+        }
+        [DV]
+        internal NDouble _scaleHeight = NDouble.NullValue;
+
+        /// <summary>
+        /// Gets or sets whether the AspectRatio of the image is kept unchanged.
+        /// If both Width and Height are set, this property is ignored.
+        /// </summary>
+        public bool LockAspectRatio
+        {
+            get { return _lockAspectRatio.Value; }
+            set { _lockAspectRatio.Value = value; }
+        }
+        [DV]
+        internal NBool _lockAspectRatio = NBool.NullValue;
+
+        /// <summary>
+        /// Gets or sets the PictureFormat for the image
+        /// </summary>
+        public PictureFormat PictureFormat
+        {
+            get { return _pictureFormat ?? (_pictureFormat = new PictureFormat(this)); }
+            set
+            {
+                SetParent(value);
+                _pictureFormat = value;
+            }
+        }
+        [DV]
+        internal PictureFormat _pictureFormat;
+
+        /// <summary>
+        /// Gets or sets a user defined resolution for the image in dots per inch.
+        /// </summary>
+        public double Resolution
+        {
+            get { return _resolution.Value; }
+            set { _resolution.Value = value; }
+        }
+        [DV]
+        internal NDouble _resolution = NDouble.NullValue;
+
+        /*
+        /// <summary>
+        /// Gets or sets a the width of the barcode, in pixels.
+        /// </summary>
+        public int BarcodeWidth
+        {
+            get { return _barcodeWidth.Value; }
+            set { _barcodeWidth.Value = value; }
+        }
+        [DV]
+        internal NInt _barcodeWidth = NInt.NullValue;
+
+        /// <summary>
+        /// Gets or sets a the height of the barcode, in pixels.
+        /// </summary>
+        public int BarcodeHeight
+        {
+            get { return _barcodeHeight.Value; }
+            set { _barcodeHeight.Value = value; }
+        }
+        [DV]
+        internal NInt _barcodeHeight = NInt.NullValue;
+        */
         #endregion
 
         #region Internal
@@ -174,12 +264,15 @@ namespace MigraDoc.DocumentObjectModel.Shapes
                 serializer.WriteSimpleAttribute("Text", Text);
             if (!_type.IsNull)
                 serializer.WriteSimpleAttribute("Type", Type);
+
+            /*
             if (!_lineRatio.IsNull)
                 serializer.WriteSimpleAttribute("LineRatio", LineRatio);
             if (!_lineHeight.IsNull)
                 serializer.WriteSimpleAttribute("LineHeight", LineHeight);
             if (!_narrowLineWidth.IsNull)
                 serializer.WriteSimpleAttribute("NarrowLineWidth", NarrowLineWidth);
+            */
 
             serializer.EndAttributes(pos);
         }
@@ -206,12 +299,15 @@ namespace MigraDoc.DocumentObjectModel.Shapes
                 serializer.WriteSimpleAttribute("Text", Text);
             if (!_type.IsNull)
                 serializer.WriteSimpleAttribute("Type", Type);
+
+            /*
             if (!_lineRatio.IsNull)
                 serializer.WriteSimpleAttribute("LineRatio", LineRatio);
             if (!_lineHeight.IsNull)
                 serializer.WriteSimpleAttribute("LineHeight", LineHeight);
             if (!_narrowLineWidth.IsNull)
                 serializer.WriteSimpleAttribute("NarrowLineWidth", NarrowLineWidth);
+            */
 
             serializer.WriteEndElement(); // barcode
 

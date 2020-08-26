@@ -41,6 +41,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="zxing, Version=0.16.5.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.5\lib\net20\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Rendering\FormattedTextFrame.cs" />
     <Compile Include="Rendering\IAreaProvider.cs" />
     <Compile Include="Rendering\ImageFormatInfo.cs" />
+    <Compile Include="Rendering\BarcodeRenderer.cs" />
     <Compile Include="Rendering\ImageRenderer.cs" />
     <Compile Include="Rendering\ImageRenderInfo.cs" />
     <Compile Include="Rendering\LayoutInfo.cs" />
@@ -131,6 +135,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Rendering.Resources\Messages.de.restext" />
     <EmbeddedResource Include="Rendering.Resources\Messages.restext" />
+    <None Include="packages.config" />
     <None Include="StrongnameKey.snk" />
   </ItemGroup>
   <ItemGroup>

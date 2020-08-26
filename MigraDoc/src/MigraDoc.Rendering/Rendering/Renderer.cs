@@ -161,6 +161,8 @@ namespace MigraDoc.Rendering
                 renderer = new ChartRenderer(gfx, (Chart)documentObject, fieldInfos);
             else if (documentObject is Image)
                 renderer = new ImageRenderer(gfx, (Image)documentObject, fieldInfos);
+            else if (documentObject is Barcode)
+                renderer = new BarcodeRenderer(gfx, (Barcode)documentObject, fieldInfos);
 
             if (renderer != null)
                 renderer._documentRenderer = documentRenderer;
@@ -194,6 +196,8 @@ namespace MigraDoc.Rendering
             //  renderer = new ChartRenderer(gfx, renderInfo, fieldInfos);
             else if (renderInfo.DocumentObject is Image)
                 renderer = new ImageRenderer(gfx, renderInfo, fieldInfos);
+            else if (renderInfo.DocumentObject is Barcode)
+                renderer = new BarcodeRenderer(gfx, renderInfo, fieldInfos);
 
             if (renderer != null)
                 renderer._documentRenderer = documentRenderer;
